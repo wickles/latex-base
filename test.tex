@@ -1,0 +1,313 @@
+% declare document class and geometry
+\documentclass[12pt]{article} % use larger type; default would be 10pt
+\usepackage[english]{babel} % for hyphenation dictionary
+%\setdefaultlanguage{english} % polyglossia command for use with XeTeX / LuaTeX
+\usepackage[margin=1in]{geometry} % handle page geometry
+
+\input{header.tex}
+
+% title info
+\title{Test file}
+\author{UCLA, Winter 2015}
+\date{\formatdate{05}{01}{2015}} % Activate to display a given date or no date (if empty),
+	% otherwise the current date is printed 
+	% format: formatdate{dd}{mm}{yyyy}
+
+
+\begin{document}
+\maketitle
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fonts}
+
+\subsection{mathbb. mathfrak. mathscr}
+
+$$ \mathbb{abc}, \quad \mathbb{ABC}, \quad \mathbb{123}. \qquad \mathfrak{abc}, \quad \mathfrak{ABC}, \quad \mathfrak{123}. \qquad \mathscr{abc} \quad \mathscr{ABC}, \quad \mathscr{123} $$
+
+\subsection{dsfont. bbm. mathpzc}
+
+$$ \mathds{abc}, \quad \mathds{ABC}, \quad \mathds{123}. \qquad \mathbbm{abc}, \quad \mathbbm{ABC}, \quad \mathbbm{123}. \qquad \mathpzc{abc}, \quad \mathpzc{ABC}, \quad \mathpzc{123} $$
+
+\subsection{Cyrillic script math symbols}
+
+$$ \cyrsymbol{\CYRZH} \times \cyrsymbol{\CYRSHCH}_{\cyrsymbol \cyrd} $$
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Included Packages}
+
+\subsection{cleveref}
+
+\begin{equation}
+\int_{\partial \Sigma} \omega = \int_\Sigma \dif \omega
+\label{eq:stokes}
+\end{equation}
+Notice that in \cref{eq:stokes}, we have..
+
+\subsection{datetime}
+
+Dates: \formatdate{01}{01}{1979}
+
+\subsection{enumitem}
+
+\subsection{outlines}
+
+\begin{outline}
+\1 item 
+	\2 subitem 
+		\3[A)] subsubitem 
+\1 item
+\end{outline}
+
+\subsection{SIunits}
+
+Speed of light is around $c = \unit{3.0 \times 10^8}{m/s}$. 
+
+\subsection{cancel}
+
+Cancel terms: $\cancel{x} + y - \cancel{x} = y$. 
+
+\subsection{bropd}
+
+Nested delimiters: $\br{\br{x-\br{a+c}}^2+\br{y-b}^2}$
+
+\subsection{commath}
+
+\subsection{tensor}
+
+Format tensor indices more easily: $M\indices{^a_b^{cd}_e}$, $\tensor[^a_b^c_d]{M}{^a_b^c_d}$
+
+\subsection{slashed}
+
+Feynman slashes: $(\slashed{p} + m) \psi = 0$. 
+
+\subsection{mhchem}
+
+Simplify writing chemical formulas: \ce{AgCl2-}, \ce{^{227}_{90}Th+}
+
+\subsection{listings}
+
+\subsection{algorithmicx}
+
+\subsection{feynmp-auto}
+
+\subsection{pgfplots}
+
+\subsection{COOL (COntent-Oriented Latex)}
+
+Math as \LaTeX commands: $\Cos{x+y}$, $\BesselJ{n}{x}$, etc.
+
+\subsection{rotating}
+
+\turnbox{-45}{
+This text is turnt
+}
+
+\vspace{1in}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Environments}
+
+\begin{theorem}[Alex's theorem]
+Alex's theorem states $P$ or $Q$. 
+\end{theorem}
+
+\begin{proof}
+The proof is trivial. 
+\end{proof}
+
+
+\subsection{Homework problem}
+
+% Problem 1
+%\setcounter{homeworkProblemCounter}{x}
+\sectionproblem[Optional Subtitle]
+\begin{em}
+Prove that something is true. 
+\end{em}
+
+
+\begin{enumproblem}
+
+% part A
+\item \begin{em}
+Prove it using method $A$. 
+\end{em}
+
+%% solution 
+My answer
+
+
+% part B
+\item \begin{em}
+Prove it using another method $B$. 
+\end{em}
+
+%% solution
+Answer goes here
+
+
+\end{enumproblem}
+%%%%% end HW problem
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Custom commands}
+
+\subsection{Residue}
+
+$$ \int_\gamma f(z) \dif z = 2\pi i \sum_\text{poles $z_\alpha$} \Res_{z=z_\alpha} f(z) $$
+
+\subsection{Vector notation}
+
+$$
+\v{abc} \quad \v{ABC} \quad \v{\alpha\beta\gamma} \quad 
+\uv{n} \uv{\phi} \uv{\rho} \uv{x} \quad 
+\v v = \vd x \quad \v a = \vdd x \quad
+\uvd \phi \quad \uvdd r
+$$
+
+Old format:
+\newcommand{\oldv}[1]{\boldsymbol{\mathbf{#1}}}
+$$ \oldv{abc} \quad \oldv{ABC} \quad \oldv{\alpha\beta\gamma} $$
+
+\subsection{Tensor notation}
+
+$$ \tens{S}\indices{^{ab}_{cd}} \quad \tens{R}\indices{_\mu^\nu_{\rho\sigma}} \quad \tens{\mathscr{I}}_{ab} {\mathscr{I}}_{ab} $$
+
+Doesn't work for non-T1 characters?
+
+\subsection{\textbackslash{}sqrt vs \textbackslash{}sqrtc}
+
+$$
+\sqrt{X} \to \sqrtc{X}, \sqrt[3]{X} \to \sqrtc[3]{X}
+$$
+
+\subsection{Specific Notation}
+
+$$ \bigO(x^2), \Lag, \Ham, \Ampl $$
+$$ \fatemptyset, \R, \C, \Z, \Q, \N, \RP^n, \CP^m, \quats, \euclids $$
+
+
+\subsection{Derivatives}
+
+\subsubsection{commath / custom derivatives}
+
+Relativity derivative inline: $\pd{y^\mu}{x^\nu}$. Now displayed: $$\dpd{y^\mu}{x^\nu}$$
+
+\subsubsection{COOL derivatives}
+
+$$ \D{f}{x} \quad \D[2]{f}{x} \quad \pderiv{f}{x} \quad \pderiv[2]{f}{x} $$ % \quad \pderiv[1,2]{f}{x,y} $$ % COOL derivatives are broken :(
+
+The code for mixed derivatives in COOL is unfortunately broken. 
+
+\subsubsection{esdiff}
+
+$$ \diff[n]{f}{x} \qquad \diffp{f}{{x}{y^2}} \qquad \diffp*{p}{V}{T} $$
+
+\subsubsection{egreg's derivatives}
+
+$$ \derivEG{f}{x}\qquad \derivEG{f}{*{2}{x},y}\qquad \pderivEG{f}{*{3}{x},y,*{4}{z}} $$
+
+\subsection{Differential spacing test}
+
+Testing `d', `D', and ``fancy D''. Order: no spacing, \textbackslash{}negthickspace, \textbackslash{}negmedspace, \textbackslash{}negthinspace. 
+
+$$
+\int \mathrm{d} x \mathrm{d} y f(x,y)
+\int \mathop{} \negthickspace \mathrm{d} x \mathop{} \negthickspace \mathrm{d} y f(x,y)
+\int \mathop{} \negmedspace \mathrm{d} x \mathop{} \negmedspace \mathrm{d} y f(x,y)
+\int \mathop{} \! \mathrm{d} x \mathop{} \! \mathrm{d} y f(x,y)
+$$
+
+$$
+\int \mathrm{D} x \mathrm{D} y f(x,y)
+\int \mathop{} \negthickspace \mathrm{D} x \mathop{} \negthickspace \mathrm{D} y f(x,y)
+\int \mathop{} \negmedspace \mathrm{D} x \mathop{} \negmedspace \mathrm{D} y f(x,y)
+\int \mathop{} \! \mathrm{D} x \mathop{} \! \mathrm{D} y f(x,y)
+$$
+
+$$
+\int \mathcal{D} \phi \mathcal{D} \psi e^{iS}
+\int \mathop{} \negthickspace\mathcal{D} \phi \mathop{} \negthickspace \mathcal{D} \psi e^{iS}
+\int \mathop{} \negmedspace\mathcal{D} \phi \mathop{} \negmedspace \mathcal{D} \psi e^{iS}
+\int \mathop{} \! \mathcal{D} \phi \mathop{} \! \mathcal{D} \psi e^{iS}
+$$
+
+Actual commands: \textbackslash{}dif, \textbackslash{}Dif, \textbackslash{}fancyDif
+
+$$
+\int \dif x \dif y f(x,y)
+\int \Dif x \Dif y f(x,y)
+\int \fancyDif x \fancyDif y f(x,y)
+$$
+
+
+\subsection{Braket spacing test}
+
+$$
+\Bigl\langle \psi \Bigm| \phi \Bigr\rangle
+\Bigl\langle \psi \mid \phi \Bigr\rangle
+\Bigl\langle \psi \Bigr| \Bigl. \phi \Bigr\rangle
+$$
+
+$$
+\bigl\langle \psi \bigm| \phi \bigr\rangle
+\bigl\langle \psi \mid \phi \bigr\rangle
+\bigl\langle \psi \bigr| \bigl. \phi \bigr\rangle
+$$
+
+$$
+\left\langle \psi \middle| \phi \right\rangle
+\left\langle \psi \mid \phi \right\rangle
+$$
+
+$
+\bra{\psi} \bra[0]{\psi} \bra[1]{\psi} \bra[2]{\psi} \bra[3]{\psi} \bra[4]{\psi}
+$
+
+$
+\ket{\psi} \ket[0]{\psi} \ket[1]{\psi} \ket[2]{\psi} \ket[3]{\psi} \ket[4]{\psi}
+$
+
+$
+\braket{\psi}{\phi} \braket[0]{\psi}{\phi} \braket[1]{\psi}{\phi} \braket[2]{\psi}{\phi} \braket[3]{\psi}{\phi} \braket[4]{\psi}{\phi}
+$
+
+$
+\matrixel{\psi}{A}{\phi} \matrixel[0]{\psi}{A}{\phi} \matrixel[1]{\psi}{A}{\phi} \matrixel[2]{\psi}{A}{\phi} \matrixel[3]{\psi}{A}{\phi} \matrixel[4]{\psi}{A}{\phi}
+$
+
+\subsection{Average and inner product}
+
+The average of $x$ is $\avg{x}$, the BIG inner product of $x,y$ is $\inner[4]{x,y}$. The average of integral is
+$$
+\avg{\int_0^t f(x) \dif x}
+$$
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Miscellaneous Notes}
+
+\subsection{Dots}
+
+$x, \dots, y$ vs $x, \dotsc, y$. $x \cdots y$ vs $x \dotsm y$
+
+
+
+
+
+
+\end{document}

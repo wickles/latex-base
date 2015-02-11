@@ -1,0 +1,664 @@
+%%%%%%%%%%%%%%%%%%
+%% CONTENTS
+%%%%%%%%%%%%%%%%%%
+% To-do / Bugs
+% Packages
+% Commands
+% Environments
+% More commands: Resizable delimiters
+% More commands: Derivatives
+% Useful templates
+% Notes
+%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%
+%% TO-DO / BUGS
+%%%%%%%%%%%%%%%%%%
+
+%% packages
+% TO-DO: replace certain packages
+	% fix COOL's broken derivatives
+	% see also: physics package
+% TO-DO: add a few useful rotational commands
+	% \newcommand{\sideways}[1]{\begin{sideways} #1 \end{sideways}} % turn things 90 degrees CCW
+	% \newcommand{\turn}[2][]{\begin{turn}{#2} #1 \end{turn}} % \turn[ang]{stuff} turns things arbitrary +/- angle
+
+
+%% environments
+% TO-DO: add problem/subproblem/answer environments for homeworks
+
+%% templates
+% TO-DO: find package for easily drawing mapping / algebraic / commutative diagrams..
+
+%% derivatives
+% BUG: superscripts in bottom of derivative impose double superscript error 
+	% requires embedding within brackets, i.e. \pd{x^\mu}{{y^\nu}}
+	% redefine \pd and other derivatives?
+	% possibly should work this way by safe design?
+% FIXED: commath derivatives revert to text mode often when in smaller environments in math mode?
+	% FIX: fixed below by renewing derivatives to use correct \frac command
+
+
+
+
+%%%%%%%%%%%%%%%%%%
+%% PACKAGES
+%%%%%%%%%%%%%%%%%%
+
+
+% standard and structural packages
+\RequirePackage[l2tabu, orthodox]{nag} % nags user about obsolete and improper syntax
+\usepackage{graphicx} % support the \includegraphics command and options
+\usepackage[font=footnotesize,labelfont=bf,labelsep=space]{caption} 
+	% makes figure captions better, more configurable.
+	% specific options make captions smaller and the label bold.
+\usepackage{subcaption} % allows for subfigures and subcaptions
+	% can add usual caption options to change format for subcaptions
+\usepackage{epstopdf} % allows complier to convert eps files to pdf files for inclusion in document
+\usepackage{amsmath} % for nice math commands and environments
+\usepackage{mathtools} % extends amsmath with bug fixes and useful commands, e.g.
+	% \shortintertext for short interjections in align environment,
+	% \prescript{t}{b}{X} for simple, nicely aligned math pre-(super/sub)scripts
+\usepackage{amsthm} % for theorem and proof environments
+\usepackage[pdfencoding=auto,psdextra]{hyperref} % adds hyperlinks and outline to PDF documents
+	% options enable enhanced unicode and math support in PDF outlines [causes conflict with \C command?]
+\usepackage{cleveref} % provides \cref command which inserts contextually correct word in front of ref.
+	% e.g. \cref{eq:myeq} --> Equation 1.2, or so
+\usepackage{bookmark} % improves package hyperref's bookmarking. 
+	% properties such as style and color can be set. generates bookmarks in first run. 
+
+% font packages
+\usepackage[utf8]{inputenc} % provides full utf8 input encoding
+\usepackage[T2A,T1]{fontenc} % provides expanded Latin character encoding, with accents (T1)
+	% provides Cyrillic character encoding (T2A) for use in cyrillic math command
+\usepackage{lmodern} % loads Latin Modern fonts, enhanced versions of the Computer Modern fonts. 
+	% They have enhanced scaling, metrics and glyph coverage. 
+	% See http://www.tug.dk/FontCatalogue/lmodern/
+\usepackage{bm} % provides \bm command for robustly bolding math characters
+\usepackage{amssymb} % for \mathbb (upper case only), \mathfrak fonts
+\usepackage{mathrsfs} % for \mathscr font (upper case only)
+\usepackage{dsfont} % best option for non-alphabetical doublestruck characters
+\usepackage{bbm} % alternative option for non-alphabetical doublestruck characters
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it} % defines \mathpzc for Zapf Chancery (standard postscript) font
+	% basically another calligraphic font, alternative to mathcal
+\DeclareMathAlphabet{\mathsfbf}{T1}{cmss}{bx}{sl} % bold sans-serif italic (for tensors). too bold?
+	% see https://www.tug.org/TUGboat/tb30-3/tb96vieth.pdf
+\usepackage{microtype} % improves kerning in certain cases. 
+	% recommended to disable protrusion in table of contents!
+
+% other packages
+\usepackage{datetime} % allows easy formatting of dates, e.g. \formatdate{dd}{mm}{yyyy}
+\usepackage[inline]{enumitem} % allows for custom labels on enumerated lists
+	% e.g. \begin{enumerate}[label=\textbf{(\alph*)}]
+	% inline option creates '*' versions of enumerate, itemize, description 
+		% which can be inlined within the text of a paragraph. 
+\usepackage{outlines} % provides 'outline[style]' environment, allowing for subitems in lists
+	% e.g. \begin{outline} \1 item \2 subitem \3[A)] subsubitem \1 item \end{outline}
+	% or with other style: \begin{outline}[enumerate], etc
+\usepackage[squaren]{SIunits} % for nice units formatting e.g. \unit{50}{\kilo\gram}
+\usepackage{cancel} % for crossing out terms with \cancel
+\usepackage{verbatim} % for verbatim and comment environments
+\usepackage{bropd} % provides \br command which simplifies nesting of bracketed terms within one another
+	% e.g. \br{\br{x-a}^2+\br{y-b}^2} produces \left[ \left( x-a \right)^2 + \left( y-b \right)^2 \right]
+	% also provides rudimentary derivatives, but overwritten by custom definitions
+\usepackage{commath} % for some nice standardized syntax stuff. 
+	% \dif, \Dif, \od, \pd, \md, \(abs | envert), \(norm | enVert), \(set | cbr), \sbr, \eval, \int(o | c)(o | c), etc
+\usepackage{tensor} % for \indices e.g. M\indices{^a_b^{cd}_e}, and \tensor e.g. \tensor[^a_b^c_d]{M}{^a_b^c_d}
+\usepackage{slashed} % provides a command \slashed[1] for Feynman slash notation
+\usepackage[version=3]{mhchem} % for writing chemical formulas with \ce, e.g. \ce{AgCl2-} or \ce{^{227}_{90}Th+}
+	% version option required to use newest version
+\usepackage{listings} % for typesetting source code
+\usepackage{algorithmicx} % for typesetting algorithms and pseudocode
+\usepackage{feynmp-auto} % for Feynman diagrams. 
+\usepackage{pgfplots} % for plotting in tikzpicture environment
+	\pgfplotsset{compat=1.11} % required to select newest version
+\usepackage{cool} % neato burrito COntent-Oriented Latex. 
+	% has an unfortunate bug in otherwise ideal derivatives code
+	% see https://tex.stackexchange.com/questions/54425
+\usepackage{esdiff} % provides separate derivative commands
+	% e.g. \diff[n]{f}{x} for nth ordinary derivative, \diffp{f}{{x}{y^2}} for multivariate derivatives,
+	% \diffp*{p}{V}{T}$ for thermo derivative
+
+\usepackage{rotating} 
+	% provides environments for rotating arbitrary objects, e.g. sideways, turn[ang], rotate[ang]
+	% also provides macro \turnbox{ang}{stuff}
+
+
+
+
+%%%%%%%%%%%%%%%%%%
+%% COMMANDS
+%%%%%%%%%%%%%%%%%%
+
+
+% functions and operators
+\LetLtxMacro{\opname}{\operatorname} % custom operator names
+\newcommand{\tr}{\opname{tr}} % for trace
+\newcommand{\rank}{\opname{rank}} % for rank
+\newcommand{\diag}{\opname{diag}} % i.e. \diag(\lambda_1, \dots, \lambda_n)
+\LetLtxMacro{\fancyRe}{\Re}
+\LetLtxMacro{\fancyIm}{\Im}
+\renewcommand{\Re}{\opname{Re}}
+\renewcommand{\Im}{\opname{Im}}
+\newcommand{\Res}{\opname*{Res}} % for residue function (handles limits properly)
+\newcommand{\inv}{^{-1}}
+\newcommand{\sgn}{\opname{sgn}} % sign/signum function
+
+% deprecated by COOL package
+%\newcommand{\Tr}{\opname{Tr}} % for Trace
+%\newcommand{\sech}{\opname{sech}}
+%\newcommand{\csch}{\opname{csch}}
+
+
+% end-closing square root command. taken from http://tex.stackexchange.com/a/29837/70383
+\newcommand{\sqrtc}[1][\hphantom{3}]{%
+	\def\DHLindex{#1}\mathpalette\DHLhksqrt}
+\def\DHLhksqrt#1#2{%
+	\setbox0=\hbox{$#1\sqrt[\DHLindex]{#2\,}$}\dimen0=\ht0
+	\advance\dimen0-0.2\ht0
+	\setbox2=\hbox{\vrule height\ht0 depth -\dimen0}%
+	{\box0\lower0.4pt\box2}}
+
+
+% vector and other notational commands
+% note distinction between bold math modes \boldsymbol vs \bm
+% see https://tex.stackexchange.com/questions/3238/
+% according to IUPAP standards, vectors should be bold italic while tensors should be slanted bold sans serif
+\LetLtxMacro{\vaccent}{\v} % rename builtin command \v{} to \vaccent{}
+\renewcommand{\v}[1]{ % for vectors
+	%\boldsymbol{\mathbf{#1}}
+	\bm{#1}
+}
+\newcommand{\uv}[1]{ % for unit vectors
+	%\boldsymbol{\mathbf{\widehat{#1}}}
+	\bm{\widehat{#1}}
+}
+\newcommand{\vd}[1]{\v{\dot{#1}}} % for dotted vectors
+\newcommand{\vdd}[1]{\v{\ddot{#1}}} % for ddotted vectors
+\newcommand{\vddd}[1]{\v{\dddot{#1}}} % for dddotted vectors
+\newcommand{\vdddd}[1]{\v{\ddddot{#1}}} % for ddddotted vectors
+\newcommand{\uvd}[1]{\bm{\dot{\widehat{#1}}}} % for dotted unit vectors
+\newcommand{\uvdd}[1]{\bm{\ddot{\widehat{#1}}}} % for ddotted unit vectors
+\renewcommand{\bbar}[1]{\bar{\bar{#1}}} % for barring things twice -- use \cbar or \zbar instead of original \bbar
+\newcommand{\bbbar}[1]{\bar{\bbar{#1}}}
+\newcommand{\bbbbar}[1]{\bar{\bbbar{#1}}}
+\newcommand{\tens}[1]{\mathsfbf{#1}} % for tensors
+
+% deprecated by commath package
+%\newcommand{\abs}[1]{\left| #1 \right|} % for absolute value ||x||
+%\newcommand{\mag}{\abs} % magnitude, just another name for \abs
+%\newcommand{\norm}[1]{\left\Vert #1 \right\Vert} % for norm ||v||
+
+
+% more stuff
+\newcommand{\grad}[1]{\v{\nabla} #1} % for gradient
+\LetLtxMacro{\divsymb}{\div} % rename builtin command \div to \divsymb
+\renewcommand{\div}[1]{\v{\nabla} \cdot #1} % for divergence
+\newcommand{\curl}[1]{\v{\nabla} \times #1} % for curl
+\LetLtxMacro{\baraccent}{\=} % rename builtin command \= to \baraccent
+\renewcommand{\=}[1]{\stackrel{#1}{=}} % for putting numbers above =
+
+
+% notational shortcuts
+\newcommand{\bigO}{\mathcal{O}} % big O notation
+\LetLtxMacro{\bigo}{\bigO} % deprecated version. keeping for now because need to update instances in older files
+\newcommand{\Lag}{\mathcal{L}} % fancy Lagrangian
+\newcommand{\Ham}{\mathcal{H}} % fancy Hamiltonian
+\newcommand{\Ampl}{\mathcal{M}} % fancy M for scattering amplitudes
+% fields and spaces
+\newcommand{\fatemptyset}{\varnothing} % alternative to the thin character \emptyset
+\newcommand{\reals}{\mathbb{R}} % real numbers
+\newcommand{\complexes}{\mathbb{C}} % complex numbers
+\newcommand{\ints}{\mathbb{Z}} % integers
+\newcommand{\nats}{\mathbb{N}} % natural numbers
+\newcommand{\irrats}{\mathbb{Q}} % irrationals
+\newcommand{\quats}{\mathbb{H}} % quaternions (a la Hamilton)
+\newcommand{\euclids}{\mathbb{E}} % Euclidean space
+%\newcommand{\E}{\euclids}
+\newcommand{\R}{\reals}
+\renewcommand{\C}{\complexes}
+\newcommand{\Z}{\ints}
+\newcommand{\Q}{\irrats}
+\newcommand{\N}{\nats}
+\newcommand{\RP}{\mathbb{RP}} % real projective space
+\newcommand{\CP}{\mathbb{CP}} % complex projective space
+% Lie groups
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\SU}{\mathrm{SU}}
+% etc
+
+
+% matrix shortcuts! only use for small vectors/matrices and such
+\newcommand{\pmat}[1]{\begin{pmatrix} #1 \end{pmatrix}}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newcommand{\Bmat}[1]{\begin{Bmatrix} #1 \end{Bmatrix}}
+\newcommand{\vmat}[1]{\begin{vmatrix} #1 \end{vmatrix}}
+\newcommand{\Vmat}[1]{\begin{Vmatrix} #1 \end{Vmatrix}}
+
+
+% Cyrillic math characters, via egreg. see https://tex.stackexchange.com/questions/664/
+% input should be a LICR code, i.e. \cyr or \CYR followed by the Latin transliteration in same case
+% e.g. \CYRSHCH for uppercase Shcha, \cyrzh for lowercase Zhe
+% for LICR codes see: http://texdoc.net/texmf-dist/doc/latex/cyrillic/cyoutenc.pdf
+% for transliterations: https://en.wikipedia.org/wiki/ALA-LC_romanization_for_Russian
+\makeatletter
+\def\cyrsymbol#1{\mathord{\mathchoice
+	{\mbox{\fontsize\tf@size\z@\usefont{T2A}{\rmdefault}{m}{n}#1}}
+	{\mbox{\fontsize\tf@size\z@\usefont{T2A}{\rmdefault}{m}{n}#1}}
+	{\mbox{\fontsize\sf@size\z@\usefont{T2A}{\rmdefault}{m}{n}#1}}
+	{\mbox{\fontsize\ssf@size\z@\usefont{T2A}{\rmdefault}{m}{n}#1}}
+}}
+\makeatother
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%
+%% ENVIRONMENTS
+%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\beg}{\begin} % a few letters less for beginning environments
+\newenvironment{eqn}{\equation}{\endequation} % a lot fewer letters for equation environment
+\newenvironment{enumproblem}{ % for easily enumerating letters in problems
+	\begin{enumerate}[label=\textbf{(\alph*)},listparindent=\parindent]
+	}{\end{enumerate}}
+
+% Homework Problem Counter
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{0}
+%\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+% Problem Section command. Creates new section with correct problem number.
+% Optional argument is a short title or description.
+% To skip to problem N, change the counter to N-1
+\newcommand{\sectionproblem}[1][]{
+	\stepcounter{homeworkProblemCounter}
+	\ifthenelse{\equal{#1}{}}{ % if description is empty
+		\section*{Problem \arabic{homeworkProblemCounter}}
+	}{
+		\section*{Problem \arabic{homeworkProblemCounter}: #1}
+	}
+}
+
+% theorem-style environments. note amsthm builtin proof environment: \begin{proof}[title]
+% appending [section] resets counter and prepends section number
+% use \setcounter{counter}{0} to reset counter
+% typical use cases:
+% plain: Theorem, Lemma, Corollary, Proposition, Conjecture, Criterion, Algorithm
+% definition: Definition, Condition, Problem, Example
+% remark: Remark, Note, Notation, Claim, Summary, Acknowledgment, Case, Conclusion
+\theoremstyle{plain} % default
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+% definition style
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+% remark style
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{note}[theorem]{Note}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%
+% RESIZEABLE DELIMITERS
+%%%%%%%%%%%%%%%%%%
+
+% provides template 1-component generic delimiters
+% parameters: left delim., right delim., size [-1,0,..,4], string
+\newcommand{\genericdel}[4]{%
+	\ifcase#3\relax 			% size 0
+	\ifthenelse{\equal{#1}{.}}{}{#1} #4 \ifthenelse{\equal{#2}{.}}{}{#2} \or
+	\bigl#1 #4 \bigr#2 \or		% size 1
+	\Bigl#1 #4 \Bigr#2 \or		% size 2
+	\biggl#1 #4 \biggr#2 \or		% size 3
+	\Biggl#1 #4 \Biggr#2 \else 	% size 4
+	\left#1 #4 \right#2 \fi		% size -1 (automatic)
+}
+
+% the value for the optional argument ranges from -1 to 4 with higher values resulting in larger delimiters
+% default value for #1 is -1 which results in automatic size for the delimeters
+\newcommand{\avg}[2][-1]{\genericdel{\langle}{\rangle}{#1}{#2}}
+% avg - average value <x>. the optional argument describes the size of the delimiters, no argument results in automatic size
+
+% define \inner command as alias for \avg -- just use \inner{x,y}
+\LetLtxMacro{\inner}{\avg}
+
+% the value for the optional argument ranges from -1 to 4 with higher values resulting in larger delimiters
+% default value for #1 is -1 which results in automatic size for the delimeters
+\newcommand{\bra}[2][-1]{\genericdel{\langle}{|}{#1}{#2}}
+% bra - Dirac bra <x|. the optional argument describes the size of the delimiters, no argument results in automatic size
+
+% the value for the optional argument ranges from -1 to 4 with higher values resulting in larger delimiters
+% default value for #1 is -1 which results in automatic size for the delimeters
+\newcommand{\ket}[2][-1]{\genericdel{|}{\rangle}{#1}{#2}}
+% bra - Dirac ket |x>. the optional argument describes the size of the delimiters, no argument results in automatic size
+
+% the value for the optional argument ranges from -1 to 4 with higher values resulting in larger delimiters
+% default value for #1 is -1 which results in automatic size for the delimeters
+\newcommand{\braket}[3][-1]{
+\genericdel{\langle}{|}{#1}{#2 \vphantom{#3}} 
+\genericdel{.}{\rangle}{#1}{#3 \vphantom{#2}}
+}
+% braket - Dirac bra-ket <x|y>. the optional argument describes the size of the delimiters, no argument results in automatic size
+
+% the value for the optional argument ranges from -1 to 4 with higher values resulting in larger delimiters
+% default value for #1 is -1 which results in automatic size for the delimeters
+\newcommand{\matrixel}[4][-1]{
+\bra[#1]{#2 \vphantom{#3#4}} #3 \ket[#1]{#4 \vphantom{#2#3}}
+}
+% matrixel - matrix element <x|A|y>. the optional argument describes the size of the delimiters, no argument results in automatic size
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%
+%% DERIVATIVES
+%%%%%%%%%%%%%%%%%%
+
+% Command for ordinary derivatives. The first argument denotes the function and the second argument denotes the variable with respect to which the derivative is taken. The optional argument denotes the order of differentiation. The style (text style/display style) is determined automatically
+% Example: \od[2]{f}{x} denotes the second derivative of f with respect to x
+\renewcommand{\od}[3][]{
+\frac{\dif{^{#1}}#2}{\dif{{#3}^{#1}}}
+}
+% Text style
+\renewcommand{\tod}[3][]{
+\tfrac{\dif{^{#1}}#2}{\dif{{#3}^{#1}}}
+}
+% Display style
+\renewcommand{\dod}[3][]{
+\dfrac{\dif{^{#1}}#2}{\dif{{#3}^{#1}}}
+}
+
+% Command for (capitalized) ordinary derivatives. The first argument denotes the function and the second argument denotes the variable with respect to which the derivative is taken. The optional argument denotes the order of differentiation. The style (text style/display style) is determined automatically
+% Example: \oD[2]{f}{x} denotes the second (capitalized) derivative of f with respect to x
+\newcommand{\oD}[3][]{
+\frac{\Dif{^{#1}}#2}{\Dif{{#3}^{#1}}}
+}
+% Text style
+\newcommand{\toD}[3][]{
+\tfrac{\Dif{^{#1}}#2}{\Dif{{#3}^{#1}}}
+}
+% Display style
+\newcommand{\doD}[3][]{
+\dfrac{\Dif{^{#1}}#2}{\Dif{{#3}^{#1}}}
+}
+
+% Command for partial derivatives. The first argument denotes the function and the second argument denotes the variable with respect to which the derivative is taken. The optional argument denotes the order of differentiation. The style (text style/display style) is determined automatically
+% Example: \pd[2]{f}{x} denotes the second partial derivative of f with respect to x
+\renewcommand{\pd}[3][]{
+\frac{\partial{^{#1}}#2}{\partial{{#3}^{#1}}}
+}
+% Text style
+\renewcommand{\tpd}[3][]{
+\tfrac{\partial{^{#1}}#2}{\partial{{#3}^{#1}}}
+}
+% Display style
+\renewcommand{\dpd}[3][]{
+\dfrac{\partial{^{#1}}#2}{\partial{{#3}^{#1}}}
+}
+
+% Command for functional derivatives. The first argument denotes the function and the second argument denotes the variable with respect to which the derivative is taken. The optional argument denotes the order of differentiation. The style (text style/display style) is determined automatically
+% Example: \fd[2]{f}{k} denotes the second functional derivative of f with respect to k
+\newcommand{\fd}[3][]{
+\frac{\delta{^{#1}}#2}{\delta{{#3}^{#1}}}
+}
+% Text style
+\newcommand{\tfd}[3][]{
+\tfrac{\delta{^{#1}}#2}{\delta{{#3}^{#1}}}
+}
+% Display style
+\newcommand{\dfd}[3][]{
+\dfrac{\delta{^{#1}}#2}{\delta{{#3}^{#1}}}
+}
+
+% mixed functional derivative - analogous to the functional derivative command
+% Example: \mfd{F}{5}{x}{2}{y}{3} denotes third y derivative and second x derivative of f
+\newcommand{\mfd}[6]{
+\frac{\delta{^{#2}}#1}{\delta{{#3}^{#4}}\delta{{#5}^{#6}}}
+}
+% Text style
+\newcommand{\tmfd}[6]{
+\tfrac{\delta{^{#2}}#1}{\delta{{#3}^{#4}}\delta{{#5}^{#6}}}
+}
+% Display style
+\newcommand{\dmfd}[6]{
+\dfrac{\delta{^{#2}}#1}{\delta{{#3}^{#4}}\delta{{#5}^{#6}}}
+}
+
+% Command for thermodynamic partial derivatives. The first argument denotes the function and the second argument denotes the variable with respect to which the derivative is taken. The optional argument denotes the order of differentiation. The style (text style/display style) is determined automatically
+% Example: \pd[2]{f}{k} denotes the second thermo partial derivative of f with respect to k
+\newcommand{\pdc}[4][]{
+\left( \frac{\partial{^{#1}}#2}{\partial{{#3}^{#1}}} \right)_{#4}
+}
+% Text style
+\newcommand{\tpdc}[4][]{
+\left( \tfrac{\partial{^{#1}}#2}{\partial{{#3}^{#1}}} \right)_{#4}
+}
+% Display style
+\newcommand{\dpdc}[4][]{
+\left( \dfrac{\partial{^{#1}}#2}{\partial{{#3}^{#1}}} \right)_{#4}
+}
+
+
+% some shorter aliases for commath
+\LetLtxMacro{\underdot}{\d} % rename builtin command \d{} to \underdot{}
+\LetLtxMacro{\d}{\od} % for derivatives
+
+% fixes for commath's differentials, which look bad for powers, e.g. $\dif^3 x$
+\renewcommand{\dif}{\mathop{}\!\mathrm{d}}
+\renewcommand{\Dif}{\mathop{}\negmedspace\mathrm{D}}
+\newcommand{\fancyDif}{\mathop{}\!\mathcal{D}}
+
+
+
+% generic for egreg's derivative command. See http://tex.stackexchange.com/a/22080/70383
+% user commands defined below
+\makeatletter 
+\newcommand{\genericDerivEG}[3]{\begingroup 
+  \@tempswafalse\toks@={}\count@=\z@ 
+  \@for\next:=#2\do 
+    {\expandafter\check@var\next
+     \advance\count@\der@exp 
+     \if@tempswa 
+       \toks@=\expandafter{\the\toks@\,}% 
+     \else 
+       \@tempswatrue 
+     \fi 
+     \toks@=\expandafter{\the\expandafter\toks@\expandafter#3\der@var}}% 
+  \frac{#3\ifnum\count@=\@ne\else^{\number\count@}\fi#1}{\the\toks@}% 
+  \endgroup} 
+\def\check@var{\@ifstar{\mult@var}{\one@var}} 
+\def\mult@var#1#2{\def\der@var{#2^{#1}}\def\der@exp{#1}} 
+\def\one@var#1{\def\der@var{#1}\chardef\der@exp\@ne} 
+\makeatother 
+
+% egreg's ordinary and partial derivative. can write regular derivatives as \derivEG{f}{x}
+% write multivariate derivatives as e.g. \pderivEG{f}{*{3}{x},y,*{4}{z}}
+\newcommand{\derivEG}[2]{\genericDerivEG{#1}{#2}{\dif}}
+\newcommand{\pderivEG}[2]{\genericDerivEG{#1}{#2}{\partial}}
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%
+%% USEFUL TEMPLATES
+%%%%%%%%%%%%%%%%%%
+
+\begin{comment}
+
+% handle figures using graphicx package
+% example - place a figure
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{myfile.png}
+\caption{This is a caption}
+\label{fig:myfigure}
+\end{figure}
+
+% handle subfigures using subcaption package
+% example - place three subfigures with caption and subcaptions
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.3\textwidth}
+		\includegraphics[width=\textwidth]{gull}
+		\caption{A gull}
+		\label{fig:gull}
+	\end{subfigure}%
+	~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+		%(or a blank line to force the subfigure onto a new line)
+	\begin{subfigure}[b]{0.3\textwidth}
+		\includegraphics[width=\textwidth]{tiger}
+		\caption{A tiger}
+		\label{fig:tiger}
+	\end{subfigure}
+	~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+	%(or a blank line to force the subfigure onto a new line)
+	\begin{subfigure}[b]{0.3\textwidth}
+		\includegraphics[width=\textwidth]{mouse}
+		\caption{A mouse}
+		\label{fig:mouse}
+	\end{subfigure}
+	\caption{Pictures of animals}\label{fig:animals}
+\end{figure}
+
+% draw Feynman diagrams using feynmf/feynmp package
+% example - draws a basic scattering diagram
+\begin{fmfgraph*}(40,25)
+\fmfleft{em,ep}
+\fmf{fermion}{em,Zee,ep}
+\fmf{photon,label=$Z$}{Zee,Zff}
+\fmf{fermion}{fb,Zff,f}
+\fmfright{fb,f}
+\fmfdot{Zee,Zff}
+\end{fmfgraph*}
+
+% draw plots with pgfplot package
+% example - draws plot of (???)
+\pgfplotsset{compat=1.3,compat/path replacement=1.5.1}
+\begin{tikzpicture}
+\begin{axis}[
+extra x ticks={-2,2},
+extra y ticks={-2,2},
+extra tick style={grid=major}]
+\addplot {x};
+\draw (axis cs:0,0) circle[radius=2];
+\end{axis}
+\end{tikzpicture}
+
+
+\end{comment}
+%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%
+%% NOTES
+%%%%%%%%%%%%%%%%%%
+
+
+%% Note on math environments
+% 'equation' and 'align' are basic standards 
+	% use '&' to for alignment in 'align'
+	% multi-line environments all end lines with '\\' (except for last line)
+	% generally all lines are tagged except in 'split' and '*' versions of environments
+	% add \label{txt} after line to give LaTeX-label, \tag{txt} to change textual label
+% use 'gather' to display multiple center-aligned lines (no manual alignment)
+	% tags/labels every line
+% use 'multline' to left-align first line, right-aline last line, and center-align all lines in between (no manual alignment)
+	% only tags/labels last line
+% use 'split' within 'equation' or 'align' to give single middle-aligned tag/label to the contained lines
+	% use '&' for alignment within 'split'
+	% no '*' version
+
+%% Note on spacing
+% https://tex.stackexchange.com/questions/74353
+% 5) \qquad
+% 4) \quad
+% 3) \thickspace = \;
+% 2) \medspace = \:
+% 1) \thinspace = \,
+% -1) \negthinspace = \!
+% -2) \negmedspace
+% -3) \negthickspace
+
+%% Note on matrices
+% https://en.wikibooks.org/wiki/LaTeX/Mathematics#Matrices_and_arrays
+% use \matrix for simple n*n matrix. prefix with p, b, B, v, V for parentheses, square brackets, curly braces, vertical lines, double vertical lines respectively. 
+% use \smallmatrix for inline text. pre- and postfix with delimiters if desired. 
+
+%% Note on useful aliases
+% \rightarrow = \to
+% \leftarrow = \gets
+% \ni = \owns = backwards \in
+% \cup = union, \cap = intersect
+% \sqcup / \sqcap for disjoint varieties
+% \gg = >>, \ll = <<
+% \vert = | (pipe, e.g. absolute value delimiter), 
+% \Vert = || (double pipes, e.g. norm delimiter)
+% \sim = ~ (tilde)
+% \overline = bar over the top. \bar achieves same effect but is fixed-width. 
+% \emptyset is thin (a zero with a slash). use \varnothing for fat version (defined as \fatemptyset above).
+% AMS dots: \dotsc for comma dots, \dotsm for multiplicative dots, 
+	% \dotsb for binary operator dots, \dotsi for multiple integration dots, 
+	% \dotso for other dots
+
+%% Note on primitives and wrappers
+% TeX functional primitives
+	% \let \foo = \bar assigns value of \bar to \foo at point of definition
+	% \def \foo{\bar} assigns value of \bar at point of use
+	% egreg recommends always using \LetLtxMacro{old}{new} instead
+		% http://tex.stackexchange.com/a/29837/70383
+% LaTeX functional primitives
+	% \newcommand defines a new command, and makes an error if it is already defined.
+	% \renewcommand redefines a predefined command, and makes an error if it is not yet defined.
+	% \providecommand defines a new command if it isn't already defined.
+% \DeclareMathOperator is a wrapper for \operatorname.
+	% both have '*' versions for operators with limits
+
+%% Note on fonts
+% Use the following string to test readability of editor font: Illegal1 = O0
+% Default LaTeX document classes only support font sizes of 10, 11, and 12 points. 
+	% Third party `extsizes' classes exist that allow 8-12, 14, 17, and 20 point fonts. 
+	% Available classes: extarticle, extreport, extbook, extletter, and extproc
+% Text mode font sizes (small to large)
+	% \tiny
+	% \scriptsize
+	% \footnotesize
+	% \small
+	% \normalsize
+	% \large
+	% \Large
+	% \LARGE
+	% \huge
+	% \Huge
+% Math mode font sizes for delimiters (smaller to larger)
+	% \big
+	% \Big
+	% \bigg
+	% \Bigg
