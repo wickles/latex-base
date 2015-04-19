@@ -19,6 +19,8 @@
 %%%%%%%%%%%%%%%%%%
 
 %% packages
+% NEW:
+	% xparse package
 % TO-DO: replace certain packages
 	% fix COOL's broken derivatives
 	% see also: physics package
@@ -69,6 +71,9 @@
 	% e.g. \cref{eq:myeq} --> Equation 1.2, or so
 \usepackage{bookmark} % improves package hyperref's bookmarking. 
 	% properties such as style and color can be set. generates bookmarks in first run. 
+%\usepackage{xparse} % provides high-level interface for producing document-level commands
+	% via \[Declare/New/Renew/Provide/etc]DocumentCommand
+	% allows for more than one optional argument in commands
 
 % font packages
 \usepackage[utf8]{inputenc} % provides full utf8 input encoding
@@ -77,6 +82,7 @@
 \usepackage{lmodern} % loads Latin Modern fonts, enhanced versions of the Computer Modern fonts. 
 	% They have enhanced scaling, metrics and glyph coverage. 
 	% See http://www.tug.dk/FontCatalogue/lmodern/
+	% Also solves rasterized fonts issue on incomplete LaTeX installations without CM-super fonts
 \usepackage{bm} % provides \bm command for robustly bolding math characters
 \usepackage{amssymb} % for \mathbb (upper case only), \mathfrak fonts
 \usepackage{mathrsfs} % for \mathscr font (upper case only)
@@ -121,6 +127,8 @@
 \usepackage{esdiff} % provides separate derivative commands
 	% e.g. \diff[n]{f}{x} for nth ordinary derivative, \diffp{f}{{x}{y^2}} for multivariate derivatives,
 	% \diffp*{p}{V}{T}$ for thermo derivative
+%\usepackage{physics} % provides streamlined interface with many commands to simplify
+	% writing standard physics notation (bra-kets, derivatives, etc.)
 
 \usepackage{rotating} 
 	% provides environments for rotating arbitrary objects, e.g. sideways, turn[ang], rotate[ang]
@@ -203,11 +211,14 @@
 
 
 % notational shortcuts
+\newcommand{\const}{\textit{const}} % shorthand for constant. works in math mode with good kerning
 \newcommand{\bigO}{\mathcal{O}} % big O notation
 \LetLtxMacro{\bigo}{\bigO} % deprecated version. keeping for now because need to update instances in older files
 \newcommand{\Lag}{\mathcal{L}} % fancy Lagrangian
 \newcommand{\Ham}{\mathcal{H}} % fancy Hamiltonian
-\newcommand{\Ampl}{\mathcal{M}} % fancy M for scattering amplitudes
+\newcommand{\AmpliM}{\mathcal{M}} % fancy M for scattering amplitudes
+\newcommand{\AmpliA}{\mathcal{A}} % fancy A for scattering amplitudes
+\newcommand{\emf}{\mathcal{E}} % fancy E for EMF
 % fields and spaces
 \newcommand{\fatemptyset}{\varnothing} % alternative to the thin character \emptyset
 \newcommand{\reals}{\mathbb{R}} % real numbers
@@ -378,85 +389,86 @@
 % Command for ordinary derivatives. The first argument denotes the function and the second argument denotes the variable with respect to which the derivative is taken. The optional argument denotes the order of differentiation. The style (text style/display style) is determined automatically
 % Example: \od[2]{f}{x} denotes the second derivative of f with respect to x
 \renewcommand{\od}[3][]{
-\frac{\dif{^{#1}}#2}{\dif{{#3}^{#1}}}
+\frac{\dif[#1]{#2}}{\dif{{#3}^{#1}}}
 }
 % Text style
 \renewcommand{\tod}[3][]{
-\tfrac{\dif{^{#1}}#2}{\dif{{#3}^{#1}}}
+\tfrac{\dif[#1]{#2}}{\dif{{#3}^{#1}}}
 }
 % Display style
 \renewcommand{\dod}[3][]{
-\dfrac{\dif{^{#1}}#2}{\dif{{#3}^{#1}}}
+\dfrac{\dif[#1]{#2}}{\dif{{#3}^{#1}}}
 }
 
 % Command for (capitalized) ordinary derivatives. The first argument denotes the function and the second argument denotes the variable with respect to which the derivative is taken. The optional argument denotes the order of differentiation. The style (text style/display style) is determined automatically
 % Example: \oD[2]{f}{x} denotes the second (capitalized) derivative of f with respect to x
 \newcommand{\oD}[3][]{
-\frac{\Dif{^{#1}}#2}{\Dif{{#3}^{#1}}}
+\frac{\Dif[#1]{#2}}{\Dif{{#3}^{#1}}}
 }
 % Text style
 \newcommand{\toD}[3][]{
-\tfrac{\Dif{^{#1}}#2}{\Dif{{#3}^{#1}}}
+\tfrac{\Dif[#1]{#2}}{\Dif{{#3}^{#1}}}
 }
 % Display style
 \newcommand{\doD}[3][]{
-\dfrac{\Dif{^{#1}}#2}{\Dif{{#3}^{#1}}}
+\dfrac{\Dif[#1]{#2}}{\Dif{{#3}^{#1}}}
 }
 
 % Command for partial derivatives. The first argument denotes the function and the second argument denotes the variable with respect to which the derivative is taken. The optional argument denotes the order of differentiation. The style (text style/display style) is determined automatically
 % Example: \pd[2]{f}{x} denotes the second partial derivative of f with respect to x
 \renewcommand{\pd}[3][]{
-\frac{\partial{^{#1}}#2}{\partial{{#3}^{#1}}}
+\frac{\pdif[#1]{#2}}{\pdif{{#3}^{#1}}}
 }
 % Text style
 \renewcommand{\tpd}[3][]{
-\tfrac{\partial{^{#1}}#2}{\partial{{#3}^{#1}}}
+\tfrac{\pdif[#1]{#2}}{\pdif{{#3}^{#1}}}
 }
 % Display style
 \renewcommand{\dpd}[3][]{
-\dfrac{\partial{^{#1}}#2}{\partial{{#3}^{#1}}}
+\dfrac{\pdif[#1]{#2}}{\pdif{{#3}^{#1}}}
 }
 
 % Command for functional derivatives. The first argument denotes the function and the second argument denotes the variable with respect to which the derivative is taken. The optional argument denotes the order of differentiation. The style (text style/display style) is determined automatically
 % Example: \fd[2]{f}{k} denotes the second functional derivative of f with respect to k
 \newcommand{\fd}[3][]{
-\frac{\delta{^{#1}}#2}{\delta{{#3}^{#1}}}
+\frac{\ddif[#1]{#2}}{\ddif{{#3}^{#1}}}
 }
 % Text style
 \newcommand{\tfd}[3][]{
-\tfrac{\delta{^{#1}}#2}{\delta{{#3}^{#1}}}
+\tfrac{\ddif[#1]{#2}}{\ddif{{#3}^{#1}}}
 }
 % Display style
 \newcommand{\dfd}[3][]{
-\dfrac{\delta{^{#1}}#2}{\delta{{#3}^{#1}}}
+\dfrac{\ddif[#1]{#2}}{\ddif{{#3}^{#1}}}
 }
 
+%% REMOVED -- should use a more functionally complete version from esdiff, COOL, egreg, etc.
 % mixed functional derivative - analogous to the functional derivative command
 % Example: \mfd{F}{5}{x}{2}{y}{3} denotes third y derivative and second x derivative of f
-\newcommand{\mfd}[6]{
-\frac{\delta{^{#2}}#1}{\delta{{#3}^{#4}}\delta{{#5}^{#6}}}
-}
-% Text style
-\newcommand{\tmfd}[6]{
-\tfrac{\delta{^{#2}}#1}{\delta{{#3}^{#4}}\delta{{#5}^{#6}}}
-}
-% Display style
-\newcommand{\dmfd}[6]{
-\dfrac{\delta{^{#2}}#1}{\delta{{#3}^{#4}}\delta{{#5}^{#6}}}
-}
+%\newcommand{\mfd}[6]{
+%\frac{\delta{^{#2}}#1}{\delta{{#3}^{#4}}\delta{{#5}^{#6}}}
+%}
+%% Text style
+%\newcommand{\tmfd}[6]{
+%\tfrac{\delta{^{#2}}#1}{\delta{{#3}^{#4}}\delta{{#5}^{#6}}}
+%}
+%% Display style
+%\newcommand{\dmfd}[6]{
+%\dfrac{\delta{^{#2}}#1}{\delta{{#3}^{#4}}\delta{{#5}^{#6}}}
+%}
 
 % Command for thermodynamic partial derivatives. The first argument denotes the function and the second argument denotes the variable with respect to which the derivative is taken. The optional argument denotes the order of differentiation. The style (text style/display style) is determined automatically
 % Example: \pd[2]{f}{k} denotes the second thermo partial derivative of f with respect to k
 \newcommand{\pdc}[4][]{
-\left( \frac{\partial{^{#1}}#2}{\partial{{#3}^{#1}}} \right)_{#4}
+\left( \frac{\pdif[#1]{#2}}{\pdif{{#3}^{#1}}} \right)_{#4}
 }
 % Text style
 \newcommand{\tpdc}[4][]{
-\left( \tfrac{\partial{^{#1}}#2}{\partial{{#3}^{#1}}} \right)_{#4}
+\left( \tfrac{\pdif[#1]{#2}}{\pdif{{#3}^{#1}}} \right)_{#4}
 }
 % Display style
 \newcommand{\dpdc}[4][]{
-\left( \dfrac{\partial{^{#1}}#2}{\partial{{#3}^{#1}}} \right)_{#4}
+\left( \dfrac{\pdif[#1]{#2}}{\pdif{{#3}^{#1}}} \right)_{#4}
 }
 
 
@@ -465,8 +477,12 @@
 \LetLtxMacro{\d}{\od} % for derivatives
 
 % fixes for commath's differentials, which look bad for powers, e.g. $\dif^3 x$
-\renewcommand{\dif}{\mathop{}\!\mathrm{d}}
-\renewcommand{\Dif}{\mathop{}\negmedspace\mathrm{D}}
+% also additional definitions for different kinds of derivative operators (partial, delta, big D, fancy D)
+\renewcommand{\dif}[2][]{\mathop{}\!\mathrm{d}^{#1} #2}
+\renewcommand{\Dif}[2][]{\mathop{}\negmedspace\mathrm{D}^{#1} #2}
+\newcommand{\pdif}[2][]{\mathop{}\!\partial^{#1} #2}
+\newcommand{\ddif}[2][]{\mathop{}\!\delta^{#1} #2}
+\newcommand{\Ddif}[2][]{\mathop{}\!\Delta^{#1} #2}
 \newcommand{\fancyDif}{\mathop{}\!\mathcal{D}}
 
 
@@ -494,7 +510,7 @@
 
 % egreg's ordinary and partial derivative. can write regular derivatives as \derivEG{f}{x}
 % write multivariate derivatives as e.g. \pderivEG{f}{*{3}{x},y,*{4}{z}}
-\newcommand{\derivEG}[2]{\genericDerivEG{#1}{#2}{\dif}}
+\newcommand{\derivEG}[2]{\genericDerivEG{#1}{#2}{\mathrm{d}}}
 \newcommand{\pderivEG}[2]{\genericDerivEG{#1}{#2}{\partial}}
 
 
@@ -546,15 +562,23 @@
 \end{figure}
 
 % draw Feynman diagrams using feynmf/feynmp package
-% example - draws a basic scattering diagram
+% example - draws a basic scattering diagram with labels
+\unitlength = 1mm % determine unit for size of diagram
+\begin{fmffile}{simple_labels}
 \begin{fmfgraph*}(40,25)
-\fmfleft{em,ep}
-\fmf{fermion}{em,Zee,ep}
-\fmf{photon,label=$Z$}{Zee,Zff}
-\fmf{fermion}{fb,Zff,f}
-\fmfright{fb,f}
-\fmfdot{Zee,Zff}
+\fmfleft{i1,i2}
+\fmfright{o1,o2}
+\fmflabel{$e^-$}{i1}
+\fmflabel{$e^+$}{i2}
+\fmflabel{$e^+,\mu^+$}{o1}
+\fmflabel{$e^-,\mu^-$}{o2}
+\fmflabel{$i\sqrt{\alpha}$}{v1}
+\fmflabel{$i\sqrt{\alpha}$}{v2}
+\fmf{fermion}{i1,v1,i2}
+\fmf{fermion}{o1,v2,o2}
+\fmf{photon,label=$\gamma,,Z^0$}{v1,v2}
 \end{fmfgraph*}
+\end{fmffile}
 
 % draw plots with pgfplot package
 % example - draws plot of (???)

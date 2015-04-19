@@ -96,7 +96,40 @@ Simplify writing chemical formulas: \ce{AgCl2-}, \ce{^{227}_{90}Th+}
 
 \subsection{feynmp-auto}
 
+Example from template in header
+\vspace{1cm}
+
+\unitlength = 1mm % determine unit for size of diagram
+\begin{fmffile}{simple_labels}
+\begin{fmfgraph*}(40,25)
+\fmfleft{i1,i2}
+\fmfright{o1,o2}
+\fmflabel{$e^-$}{i1}
+\fmflabel{$e^+$}{i2}
+\fmflabel{$e^+,\mu^+$}{o1}
+\fmflabel{$e^-,\mu^-$}{o2}
+\fmflabel{$i\sqrt{\alpha}$}{v1}
+\fmflabel{$i\sqrt{\alpha}$}{v2}
+\fmf{fermion}{i1,v1,i2}
+\fmf{fermion}{o1,v2,o2}
+\fmf{photon,label=$\gamma,,Z^0$}{v1,v2}
+\end{fmfgraph*}
+\end{fmffile}
+
 \subsection{pgfplots}
+
+Example from template in header
+
+\pgfplotsset{compat=1.3,compat/path replacement=1.5.1}
+\begin{tikzpicture}
+\begin{axis}[
+extra x ticks={-2,2},
+extra y ticks={-2,2},
+extra tick style={grid=major}]
+\addplot {x};
+\draw (axis cs:0,0) circle[radius=2];
+\end{axis}
+\end{tikzpicture}
 
 \subsection{COOL (COntent-Oriented Latex)}
 
@@ -195,7 +228,7 @@ $$
 
 \subsection{Specific Notation}
 
-$$ \bigO(x^2), \Lag, \Ham, \Ampl $$
+$$ \bigO(x^2), \Lag, \Ham, \AmpliA, \AmpliM $$
 $$ \fatemptyset, \R, \C, \Z, \Q, \N, \RP^n, \CP^m, \quats, \euclids $$
 
 
@@ -203,7 +236,14 @@ $$ \fatemptyset, \R, \C, \Z, \Q, \N, \RP^n, \CP^m, \quats, \euclids $$
 
 \subsubsection{commath / custom derivatives}
 
-Relativity derivative inline: $\pd{y^\mu}{x^\nu}$. Now displayed: $$\dpd{y^\mu}{x^\nu}$$
+Relativity derivative inline: $\pd{y^\mu}{x^\nu}$. Displayed derivatives: 
+$$ \od[2]{y}{x} \qquad \pd{y^\mu}{x^\nu} \qquad \pdc{S}{E}{N} $$
+
+Test for kerning of derivatives using \textbackslash{}pdif vs \textbackslash{}partial
+
+$$ \pd{y}{x} \, \frac{\partial y}{\partial x} \, \pd{F}{X} \, \frac{\partial F}{\partial X} $$
+
+$$ \pd[2]{y}{x} \, \frac{\partial^2 y}{\partial x^2} \, \pd[2]{F}{X} \, \frac{\partial^2 F}{\partial X^2} $$
 
 \subsubsection{COOL derivatives}
 
