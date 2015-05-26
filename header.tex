@@ -4,6 +4,7 @@
 % To-do / Bugs
 % Packages
 % Commands
+% Special Symbols
 % Environments
 % More commands: Resizable delimiters
 % More commands: Derivatives
@@ -15,33 +16,21 @@
 
 
 %%%%%%%%%%%%%%%%%%
-%% TO-DO / BUGS
+%% TO-DO / ISSUES
 %%%%%%%%%%%%%%%%%%
 
 %% packages
-% NEW:
-	% xparse package
 % TO-DO: replace certain packages
 	% fix COOL's broken derivatives
-	% see also: physics package
-% TO-DO: add a few useful rotational commands
+	% commath -- basically rewrite it, especially by way of mathtools package's \DeclarePairedDelimiter command
+		% use \DeclarePairedDelimiter command to define delimited operators like \abs, \norm, etc. Enables stuff like \abs{x} for normal size, \abs*{x} for auto size, \abs[\big]{x} for specific size
+% TO-DO: custom commands using package rotating.sty
 	% \newcommand{\sideways}[1]{\begin{sideways} #1 \end{sideways}} % turn things 90 degrees CCW
 	% \newcommand{\turn}[2][]{\begin{turn}{#2} #1 \end{turn}} % \turn[ang]{stuff} turns things arbitrary +/- angle
-
-
-%% environments
-% TO-DO: add problem/subproblem/answer environments for homeworks
-
-%% templates
 % TO-DO: find package for easily drawing mapping / algebraic / commutative diagrams..
 
-%% derivatives
-% BUG: superscripts in bottom of derivative impose double superscript error 
-	% requires embedding within brackets, i.e. \pd{x^\mu}{{y^\nu}}
-	% redefine \pd and other derivatives?
-	% possibly should work this way by safe design?
-% FIXED: commath derivatives revert to text mode often when in smaller environments in math mode?
-	% FIX: fixed below by renewing derivatives to use correct \frac command
+%% environments
+% TO-DO: add/improve problem/subproblem/answer environments for homeworks
 
 
 
@@ -52,7 +41,8 @@
 
 
 % standard and structural packages
-\RequirePackage[l2tabu, orthodox]{nag} % nags user about obsolete and improper syntax
+\RequirePackage[l2tabu,orthodox]{nag} % nags user about obsolete and improper syntax
+%\usepackage{iftex} % check if a document is being processed with PDFTEX, or XeTEX, or LuaTEX
 \usepackage{graphicx} % support the \includegraphics command and options
 \usepackage[font=footnotesize,labelfont=bf,labelsep=space]{caption} 
 	% makes figure captions better, more configurable.
@@ -65,35 +55,42 @@
 	% \shortintertext for short interjections in align environment,
 	% \prescript{t}{b}{X} for simple, nicely aligned math pre-(super/sub)scripts
 \usepackage{amsthm} % for theorem and proof environments
+\usepackage{xparse} % provides high-level interface for producing document-level commands
+	% via \[Declare/New/Renew/Provide/etc]DocumentCommand
+	% allows for more than one optional argument in commands
+\usepackage{lineno} % provides line numbers in main text for reference and peer review
+%\linenumbers % uncomment to enable line numbering
 \usepackage[pdfencoding=auto,psdextra]{hyperref} % adds hyperlinks and outline to PDF documents
 	% options enable enhanced unicode and math support in PDF outlines [causes conflict with \C command?]
 \usepackage{cleveref} % provides \cref command which inserts contextually correct word in front of ref.
 	% e.g. \cref{eq:myeq} --> Equation 1.2, or so
 \usepackage{bookmark} % improves package hyperref's bookmarking. 
 	% properties such as style and color can be set. generates bookmarks in first run. 
-%\usepackage{xparse} % provides high-level interface for producing document-level commands
-	% via \[Declare/New/Renew/Provide/etc]DocumentCommand
-	% allows for more than one optional argument in commands
 
-% font packages
+
+% font packages -- load fontenc, then inputenc, then lmodern. 
+% see http://tex.stackexchange.com/a/44699
+\usepackage[T2A,T1]{fontenc} % improves output font encoding
+	% T1: provides expanded Latin character encoding, with accents
+	% T2A: provides Cyrillic character encoding for use in cyrillic math commands
 \usepackage[utf8]{inputenc} % provides full utf8 input encoding
-\usepackage[T2A,T1]{fontenc} % provides expanded Latin character encoding, with accents (T1)
-	% provides Cyrillic character encoding (T2A) for use in cyrillic math command
 \usepackage{lmodern} % loads Latin Modern fonts, enhanced versions of the Computer Modern fonts. 
 	% They have enhanced scaling, metrics and glyph coverage. 
 	% See http://www.tug.dk/FontCatalogue/lmodern/
-	% Also solves rasterized fonts issue on incomplete LaTeX installations without CM-super fonts
+	% Also solves rasterized/aliased fonts issue on incomplete LaTeX installations without CM-super fonts
 \usepackage{bm} % provides \bm command for robustly bolding math characters
 \usepackage{amssymb} % for \mathbb (upper case only), \mathfrak fonts
 \usepackage{mathrsfs} % for \mathscr font (upper case only)
 \usepackage{dsfont} % best option for non-alphabetical doublestruck characters
 \usepackage{bbm} % alternative option for non-alphabetical doublestruck characters
-\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it} % defines \mathpzc for Zapf Chancery (standard postscript) font
+	% highly rasterized (non-smooth bitmap font), unfortunately
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it} % defines \mathpzc for Zapf Chancery font (a standard postscript font)
 	% basically another calligraphic font, alternative to mathcal
 \DeclareMathAlphabet{\mathsfbf}{T1}{cmss}{bx}{sl} % bold sans-serif italic (for tensors). too bold?
 	% see https://www.tug.org/TUGboat/tb30-3/tb96vieth.pdf
 \usepackage{microtype} % improves kerning in certain cases. 
 	% recommended to disable protrusion in table of contents!
+
 
 % other packages
 \usepackage{datetime} % allows easy formatting of dates, e.g. \formatdate{dd}{mm}{yyyy}
@@ -112,6 +109,7 @@
 	% also provides rudimentary derivatives, but overwritten by custom definitions
 \usepackage{commath} % for some nice standardized syntax stuff. 
 	% \dif, \Dif, \od, \pd, \md, \(abs | envert), \(norm | enVert), \(set | cbr), \sbr, \eval, \int(o | c)(o | c), etc
+	% has some issues -- largely in need of rewrite (some work on that done here)
 \usepackage{tensor} % for \indices e.g. M\indices{^a_b^{cd}_e}, and \tensor e.g. \tensor[^a_b^c_d]{M}{^a_b^c_d}
 \usepackage{slashed} % provides a command \slashed[1] for Feynman slash notation
 \usepackage[version=3]{mhchem} % for writing chemical formulas with \ce, e.g. \ce{AgCl2-} or \ce{^{227}_{90}Th+}
@@ -127,8 +125,17 @@
 \usepackage{esdiff} % provides separate derivative commands
 	% e.g. \diff[n]{f}{x} for nth ordinary derivative, \diffp{f}{{x}{y^2}} for multivariate derivatives,
 	% \diffp*{p}{V}{T}$ for thermo derivative
-%\usepackage{physics} % provides streamlined interface with many commands to simplify
+\usepackage{physics} % provides streamlined interface with many commands to simplify
 	% writing standard physics notation (bra-kets, derivatives, etc.)
+	% differentials and derivatives: \dd[n]{x}, \dv[n]{f}{x}, \dv{x}, \pdv{f}{x}{y}, \var{Q}, \fdv{F}{g}
+	% bra-ket notation: \bra, \ket, \braket, \dyad, \matrixel 
+	% \qty(x) for delimited quantities
+	% \abs, \norm, \eval, \order ,\comm, \acomm
+	% vectors: \vb, \va, vu, \vdot, \cross, \grad, \div, \curl, \laplacian
+	% largely replaces and adds basic math functions with auto-delimiters: trig, linear algebra, etc.
+	% in particular adds \tr, \Tr, \rank, \erf, \Res, \pv / \PV, \Re, \Im
+	% auto padding text: \qq{string}
+	% matrix quantities: \mqty(a & b \\ c & d) or \mqty[x \\ y], Pauli \pmat{n}, diagonal matrices \mqty(\dmat{1,2&3\\4&5}), anti-diagonal \admat
 
 \usepackage{rotating} 
 	% provides environments for rotating arbitrary objects, e.g. sideways, turn[ang], rotate[ang]
@@ -143,19 +150,22 @@
 
 
 % functions and operators
+%partially deprecated by physics.sty
+\newcommand{\mtext}[1]{{\textnormal{#1}}} % for writing text within math mode, e.g. for subscripts
+\LetLtxMacro{\mtxt}{\mtext} % legacy alias for \mtext
 \LetLtxMacro{\opname}{\operatorname} % custom operator names
-\newcommand{\tr}{\opname{tr}} % for trace
-\newcommand{\rank}{\opname{rank}} % for rank
+%\newcommand{\tr}{\opname{tr}} % for trace
+%\newcommand{\rank}{\opname{rank}} % for rank
 \newcommand{\diag}{\opname{diag}} % i.e. \diag(\lambda_1, \dots, \lambda_n)
-\LetLtxMacro{\fancyRe}{\Re}
-\LetLtxMacro{\fancyIm}{\Im}
-\renewcommand{\Re}{\opname{Re}}
-\renewcommand{\Im}{\opname{Im}}
-\newcommand{\Res}{\opname*{Res}} % for residue function (handles limits properly)
+\LetLtxMacro{\fancyRe}{\real} % already renamed from physics.sty
+\LetLtxMacro{\fancyIm}{\imaginary} % see above
+%\renewcommand{\Re}{\opname{Re}}
+%\renewcommand{\Im}{\opname{Im}}
+\renewcommand{\Res}{\opname*{Res}} % for residue function (handles limits properly)
 \newcommand{\inv}{^{-1}}
 \newcommand{\sgn}{\opname{sgn}} % sign/signum function
 
-% deprecated by COOL package
+% deprecated by COOL/physics.sty
 %\newcommand{\Tr}{\opname{Tr}} % for Trace
 %\newcommand{\sech}{\opname{sech}}
 %\newcommand{\csch}{\opname{csch}}
@@ -201,19 +211,44 @@
 %\newcommand{\norm}[1]{\left\Vert #1 \right\Vert} % for norm ||v||
 
 
-% more stuff
-\newcommand{\grad}[1]{\v{\nabla} #1} % for gradient
-\LetLtxMacro{\divsymb}{\div} % rename builtin command \div to \divsymb
-\renewcommand{\div}[1]{\v{\nabla} \cdot #1} % for divergence
-\newcommand{\curl}[1]{\v{\nabla} \times #1} % for curl
+% custom symbols
+%deprecated by physics.sty
+%\newcommand{\grad}[1]{\v{\nabla} #1} % for gradient
+%\LetLtxMacro{\divsymb}{\div} % rename builtin command \div to \divsymb
+%\renewcommand{\div}[1]{\v{\nabla} \cdot #1} % for divergence
+%\newcommand{\curl}[1]{\v{\nabla} \times #1} % for curl
 \LetLtxMacro{\baraccent}{\=} % rename builtin command \= to \baraccent
 \renewcommand{\=}[1]{\stackrel{#1}{=}} % for putting numbers above =
+\LetLtxMacro{\twiddle}{\sim} % more natural name for twiddle symbol 
+\LetLtxMacro{\gsim}{\gtrsim} % alias for \gtrsim aka "approx greater than"
+\LetLtxMacro{\lsim}{\lesssim} % alias for \lesssim aka "approx less than"
 
 
-% notational shortcuts
-\newcommand{\const}{\textit{const}} % shorthand for constant. works in math mode with good kerning
-\newcommand{\bigO}{\mathcal{O}} % big O notation
+% matrix shortcuts! only use for small vectors/matrices and such
+%deprecated by physics.sty
+%\newcommand{\pmat}[1]{\begin{pmatrix} #1 \end{pmatrix}}
+%\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+%\newcommand{\Bmat}[1]{\begin{Bmatrix} #1 \end{Bmatrix}}
+%\newcommand{\vmat}[1]{\begin{vmatrix} #1 \end{vmatrix}}
+%\newcommand{\Vmat}[1]{\begin{Vmatrix} #1 \end{Vmatrix}}
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%
+%% SPECIAL SYMBOLS
+%%%%%%%%%%%%%%%%%%
+
+
+% special characters and shortcuts
+\newcommand{\const}{{\textit{const}}} % shorthand for constant. works in math mode with proper kerning
+\newcommand{\bigO}{\mathcal{O}} % big O notation. is there a \O?
 \LetLtxMacro{\bigo}{\bigO} % deprecated version. keeping for now because need to update instances in older files
+\LetLtxMacro{\oldO}{\O} % rename builtin \O (a per mille symbol?)
+\renewcommand{\O}{\bigO} % alternative big O command
 \newcommand{\Lag}{\mathcal{L}} % fancy Lagrangian
 \newcommand{\Ham}{\mathcal{H}} % fancy Hamiltonian
 \newcommand{\AmpliM}{\mathcal{M}} % fancy M for scattering amplitudes
@@ -242,12 +277,23 @@
 % etc
 
 
-% matrix shortcuts! only use for small vectors/matrices and such
-\newcommand{\pmat}[1]{\begin{pmatrix} #1 \end{pmatrix}}
-\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
-\newcommand{\Bmat}[1]{\begin{Bmatrix} #1 \end{Bmatrix}}
-\newcommand{\vmat}[1]{\begin{vmatrix} #1 \end{vmatrix}}
-\newcommand{\Vmat}[1]{\begin{Vmatrix} #1 \end{Vmatrix}}
+% missing Greek symbol commands
+\newcommand{\Alpha}{A}
+\LetLtxMacro{\BetaF}{\Beta}
+\renewcommand{\Beta}{B}
+\newcommand{\Epsilon}{E}
+\LetLtxMacro{\ZetaF}{\Zeta}
+\renewcommand{\Zeta}{Z}
+\newcommand{\Eta}{H}
+\newcommand{\Iota}{I}
+\newcommand{\Kappa}{K}
+\newcommand{\Mu}{M}
+\newcommand{\Nu}{N}
+\newcommand{\omicron}{o}
+\newcommand{\Omicron}{O}
+\newcommand{\Rho}{P}
+\newcommand{\Tau}{T}
+\newcommand{\Chi}{X}
 
 
 % Cyrillic math characters, via egreg. see https://tex.stackexchange.com/questions/664/
@@ -355,17 +401,17 @@
 
 % the value for the optional argument ranges from -1 to 4 with higher values resulting in larger delimiters
 % default value for #1 is -1 which results in automatic size for the delimeters
-\newcommand{\bra}[2][-1]{\genericdel{\langle}{|}{#1}{#2}}
+\renewcommand{\bra}[2][-1]{\genericdel{\langle}{|}{#1}{#2}}
 % bra - Dirac bra <x|. the optional argument describes the size of the delimiters, no argument results in automatic size
 
 % the value for the optional argument ranges from -1 to 4 with higher values resulting in larger delimiters
 % default value for #1 is -1 which results in automatic size for the delimeters
-\newcommand{\ket}[2][-1]{\genericdel{|}{\rangle}{#1}{#2}}
+\renewcommand{\ket}[2][-1]{\genericdel{|}{\rangle}{#1}{#2}}
 % bra - Dirac ket |x>. the optional argument describes the size of the delimiters, no argument results in automatic size
 
 % the value for the optional argument ranges from -1 to 4 with higher values resulting in larger delimiters
 % default value for #1 is -1 which results in automatic size for the delimeters
-\newcommand{\braket}[3][-1]{
+\renewcommand{\braket}[3][-1]{
 \genericdel{\langle}{|}{#1}{#2 \vphantom{#3}} 
 \genericdel{.}{\rangle}{#1}{#3 \vphantom{#2}}
 }
@@ -373,7 +419,7 @@
 
 % the value for the optional argument ranges from -1 to 4 with higher values resulting in larger delimiters
 % default value for #1 is -1 which results in automatic size for the delimeters
-\newcommand{\matrixel}[4][-1]{
+\renewcommand{\matrixel}[4][-1]{
 \bra[#1]{#2 \vphantom{#3#4}} #3 \ket[#1]{#4 \vphantom{#2#3}}
 }
 % matrixel - matrix element <x|A|y>. the optional argument describes the size of the delimiters, no argument results in automatic size
@@ -431,15 +477,15 @@
 % Command for functional derivatives. The first argument denotes the function and the second argument denotes the variable with respect to which the derivative is taken. The optional argument denotes the order of differentiation. The style (text style/display style) is determined automatically
 % Example: \fd[2]{f}{k} denotes the second functional derivative of f with respect to k
 \newcommand{\fd}[3][]{
-\frac{\ddif[#1]{#2}}{\ddif{{#3}^{#1}}}
+\frac{\deldif[#1]{#2}}{\deldif{{#3}^{#1}}}
 }
 % Text style
 \newcommand{\tfd}[3][]{
-\tfrac{\ddif[#1]{#2}}{\ddif{{#3}^{#1}}}
+\tfrac{\deldif[#1]{#2}}{\deldif{{#3}^{#1}}}
 }
 % Display style
 \newcommand{\dfd}[3][]{
-\dfrac{\ddif[#1]{#2}}{\ddif{{#3}^{#1}}}
+\dfrac{\deldif[#1]{#2}}{\deldif{{#3}^{#1}}}
 }
 
 %% REMOVED -- should use a more functionally complete version from esdiff, COOL, egreg, etc.
@@ -464,7 +510,7 @@
 }
 % Text style
 \newcommand{\tpdc}[4][]{
-\left( \tfrac{\pdif[#1]{#2}}{\pdif{{#3}^{#1}}} \right)_{#4}
+(\tfrac{\pdif[#1]{#2}}{\pdif{{#3}^{#1}}})_{#4}
 }
 % Display style
 \newcommand{\dpdc}[4][]{
@@ -476,14 +522,29 @@
 \LetLtxMacro{\underdot}{\d} % rename builtin command \d{} to \underdot{}
 \LetLtxMacro{\d}{\od} % for derivatives
 
-% fixes for commath's differentials, which look bad for powers, e.g. $\dif^3 x$
+% fixes and improvements for commath's differentials, which look bad for powers, e.g. $\dif^3 x$
 % also additional definitions for different kinds of derivative operators (partial, delta, big D, fancy D)
-\renewcommand{\dif}[2][]{\mathop{}\!\mathrm{d}^{#1} #2}
-\renewcommand{\Dif}[2][]{\mathop{}\negmedspace\mathrm{D}^{#1} #2}
-\newcommand{\pdif}[2][]{\mathop{}\!\partial^{#1} #2}
-\newcommand{\ddif}[2][]{\mathop{}\!\delta^{#1} #2}
-\newcommand{\Ddif}[2][]{\mathop{}\!\Delta^{#1} #2}
-\newcommand{\fancyDif}{\mathop{}\!\mathcal{D}}
+% still need to consider how to handle 'inline' partials, like $\partial_\mu \phi$ 
+% alternatives provided by physics.sty: \dd for \dif, \var for \deldif
+\newcommand{\genericDif}[4]{\mathop{}#1#2^{#3} #4}
+\renewcommand{\dif}[2][]{\genericDif{\!}{\mathrm{d}}{#1}{#2}}
+\renewcommand{\Dif}[2][]{\genericDif{\negmedspace}{\mathrm{D}}{#1}{#2}}
+\newcommand{\pdif}[2][]{\genericDif{\!}{\partial}{#1}{#2}}
+\newcommand{\deldif}[2][]{\genericDif{\!}{\delta}{#1}{#2}}
+\newcommand{\Deldif}[2][]{\genericDif{\!}{\Delta}{#1}{#2}}
+\newcommand{\fancyDif}[2][]{\genericDif{\!}{\mathcal{D}}{#1}{#2}}
+
+% Provides regular command \dif[n]{x} that ideally would handle spacing automatically, and starred command without spacing
+% Unfortunately auto-spacing doesn't work due to unexpected behavior of \mathop near binary operators. 
+% Switching to physics.sty for future use, and keeping old commands for legacy use
+% Idea came from http://tex.stackexchange.com/a/21114
+\NewDocumentCommand{\altGenericDif}{m m m m}{
+	\IfBooleanTF {#1}
+	{ {#2^{#3} #4} }
+	{ \mathop{#2^{#3} #4} }
+}
+\NewDocumentCommand{\altdif}{ s O{} m }{\altGenericDif{#1}{\mathrm{d}}{#2}{#3}}
+
 
 
 
@@ -670,6 +731,8 @@ extra tick style={grid=major}]
 % Default LaTeX document classes only support font sizes of 10, 11, and 12 points. 
 	% Third party `extsizes' classes exist that allow 8-12, 14, 17, and 20 point fonts. 
 	% Available classes: extarticle, extreport, extbook, extletter, and extproc
+% For text within math mode, always use \textnormal -- NOT \mathrm, \text, \textrm, etc. 
+	% this maintains font choices and ensures normal, upright text
 % Text mode font sizes (small to large)
 	% \tiny
 	% \scriptsize

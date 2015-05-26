@@ -44,7 +44,7 @@ $$ \cyrsymbol{\CYRZH} \times \cyrsymbol{\CYRSHCH}_{\cyrsymbol \cyrd} $$
 \subsection{cleveref}
 
 \begin{equation}
-\int_{\partial \Sigma} \omega = \int_\Sigma \dif \omega
+\int_{\partial \Sigma} \omega = \int_\Sigma \dif{\omega}
 \label{eq:stokes}
 \end{equation}
 Notice that in \cref{eq:stokes}, we have..
@@ -199,7 +199,7 @@ Answer goes here
 
 \subsection{Residue}
 
-$$ \int_\gamma f(z) \dif z = 2\pi i \sum_\text{poles $z_\alpha$} \Res_{z=z_\alpha} f(z) $$
+$$ \int_\gamma f(z) \dif{z} = 2\pi i \sum_\text{poles $z_\alpha$} \Res_{z=z_\alpha} f(z) $$
 
 \subsection{Vector notation}
 
@@ -268,6 +268,7 @@ $$
 \int \mathop{} \negthickspace \mathrm{d} x \mathop{} \negthickspace \mathrm{d} y f(x,y)
 \int \mathop{} \negmedspace \mathrm{d} x \mathop{} \negmedspace \mathrm{d} y f(x,y)
 \int \mathop{} \! \mathrm{d} x \mathop{} \! \mathrm{d} y f(x,y)
+\int \mathop{\mathrm{d}x} \mathop{\mathrm{d}y} f(x,y)
 $$
 
 $$
@@ -275,6 +276,7 @@ $$
 \int \mathop{} \negthickspace \mathrm{D} x \mathop{} \negthickspace \mathrm{D} y f(x,y)
 \int \mathop{} \negmedspace \mathrm{D} x \mathop{} \negmedspace \mathrm{D} y f(x,y)
 \int \mathop{} \! \mathrm{D} x \mathop{} \! \mathrm{D} y f(x,y)
+\int \mathop{\mathrm{D}x} \mathop{\mathrm{D}y} f(x,y)
 $$
 
 $$
@@ -282,15 +284,47 @@ $$
 \int \mathop{} \negthickspace\mathcal{D} \phi \mathop{} \negthickspace \mathcal{D} \psi e^{iS}
 \int \mathop{} \negmedspace\mathcal{D} \phi \mathop{} \negmedspace \mathcal{D} \psi e^{iS}
 \int \mathop{} \! \mathcal{D} \phi \mathop{} \! \mathcal{D} \psi e^{iS}
+\int \mathop{\mathcal{D}\phi} \mathop{\mathcal{D}\psi} \psi e^{iS}
 $$
 
-Actual commands: \textbackslash{}dif, \textbackslash{}Dif, \textbackslash{}fancyDif
+Actual commands: \textbackslash{}dif, \textbackslash{}Dif, \textbackslash{}fancyDif 
 
 $$
-\int \dif x \dif y f(x,y)
-\int \Dif x \Dif y f(x,y)
-\int \fancyDif x \fancyDif y f(x,y)
+\int \dif{x} \dif{y} f(x,y)
+\int \Dif{x} \Dif{y} f(x,y)
+\int \fancyDif{x} \fancyDif{y} f(x,y)
 $$
+
+\begin{comment}
+Test for new differential commands
+
+\begin{gather}
+\int f(x,y) \mathop{\mathrm{d}x} \mathop{\mathrm{d}y} \\
+\int \olddif{x} \olddif{y} \, f(x,y) \\
+\int \mathop{\mathrm{d}x} \mathop{\mathrm{d}y} f(x,y) \\
+\int \mathop{\mathrm{d}^3 x} \mathop{\mathrm{d}^3 y} f(x,y) \\
+\int \mathop{\mathrm{d}^3 x} \mathop{\mathrm{d}^3 y} \, f(x,y) \\
+\int \olddif[3]{x} \olddif[3]{y} \, f(x,y) 
+\end{gather}
+
+Test sentence with words: old method $\olddif{\omega} = ab \olddif{y} ce \olddif{x} \olddif{z}$ versus new method $\mathop{\mathrm{d}\omega} = ab \mathop{\mathrm{d}y} ce \mathop{\mathrm{d}x} \mathop{\mathrm{d}z}$ plus words
+
+Test
+
+\begin{gather}
+\olddif{\omega} = ab \olddif{y} \, ce \olddif{x} \olddif{z} \\
+\dif{\omega} = ab \dif{y} ce \dif{x} \dif{z} \\
+\dif{\omega} = ab \dif{E} \dif{X} + cd \dif{U} \dif{Y}
+\end{gather}
+
+\begin{gather}
+\int \v E \cdot \dif{\v A} \dif{x} \\
+\int \v E \cdot \dif*{\v A} \dif*{x} \\
+\int \v E \cdot \dif*{\v A} \dif{x} \\
+\int \dif{\v A} \cdot \v E \\
+\int \dif*{\v A} \cdot \v E
+\end{gather}
+\end{comment}
 
 
 \subsection{Braket spacing test}
@@ -314,6 +348,7 @@ $$
 
 $
 \bra{\psi} \bra[0]{\psi} \bra[1]{\psi} \bra[2]{\psi} \bra[3]{\psi} \bra[4]{\psi}
+%\bra{\frac{1}{2}} \bra{\frac{1}{2}}\ket{\frac{1}{2}} \bra*{\frac{1}{2}}\ket*{\frac{1}{2}} \bra{\frac{1}{2}}\ket*{\frac{1}{2}}
 $
 
 $
@@ -332,7 +367,7 @@ $
 
 The average of $x$ is $\avg{x}$, the BIG inner product of $x,y$ is $\inner[4]{x,y}$. The average of integral is
 $$
-\avg{\int_0^t f(x) \dif x}
+\avg{\int_0^t f(x) \dif{x}}
 $$
 
 
