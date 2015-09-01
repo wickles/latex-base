@@ -66,6 +66,13 @@
 	% e.g. \cref{eq:myeq} --> Equation 1.2, or so
 \usepackage{bookmark} % improves package hyperref's bookmarking. 
 	% properties such as style and color can be set. generates bookmarks in first run. 
+\usepackage{letltxmacro} % provides \LetLtxMacro command for correct renaming of commands
+\usepackage{cmap} % provides better copy-pasteable output text. 
+	% see for details: http://tex.stackexchange.com/a/64198
+	% can also use mmap.sty, but not compatible with fonts other than Computer Modern
+	% see for details: http://tex.stackexchange.com/questions/74630/
+\input{glyphtounicode} % these two commands improve glyph output for non-T1 encodings
+\pdfgentounicode=1
 
 
 % font packages -- load fontenc, then inputenc, then lmodern. 
@@ -74,7 +81,7 @@
 	% T1: provides expanded Latin character encoding, with accents
 	% T2A: provides Cyrillic character encoding for use in cyrillic math commands
 \usepackage[utf8]{inputenc} % provides full utf8 input encoding
-\usepackage{lmodern} % loads Latin Modern fonts, enhanced versions of the Computer Modern fonts. 
+\usepackage{lmodern} % loads Latin Modern fonts, enhanced versions of the Computer Modern (CM) fonts. 
 	% They have enhanced scaling, metrics and glyph coverage. 
 	% See http://www.tug.dk/FontCatalogue/lmodern/
 	% Also solves rasterized/aliased fonts issue on incomplete LaTeX installations without CM-super fonts
@@ -122,6 +129,7 @@
 \usepackage{cool} % neato burrito COntent-Oriented Latex. 
 	% has an unfortunate bug in otherwise ideal derivatives code
 	% see https://tex.stackexchange.com/questions/54425
+	% Warning: renamed \Beta and \Zeta to \BetaF and \ZetaF below
 \usepackage{esdiff} % provides separate derivative commands
 	% e.g. \diff[n]{f}{x} for nth ordinary derivative, \diffp{f}{{x}{y^2}} for multivariate derivatives,
 	% \diffp*{p}{V}{T}$ for thermo derivative

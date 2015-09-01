@@ -25,3 +25,7 @@
 *.synctex.gz
 *.fdb_latexmk
 *.fls
+*.1
+*.t1
+*.mp
+
