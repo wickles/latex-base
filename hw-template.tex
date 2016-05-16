@@ -1,309 +1,104 @@
-% declare document class and geometry
+%% declare document class and geometry
 \documentclass[12pt]{article} % use larger type; default would be 10pt
 \usepackage[english]{babel} % for hyphenation dictionary
 %\setdefaultlanguage{english} % polyglossia command for use with XeTeX / LuaTeX
-\usepackage[margin=1in]{geometry} % handle page geometry
+\usepackage{geometry} % setup page geometry
+\geometry{letterpaper, portrait, margin=1in}
 
-% import packages and commands
+%% import packages and commands
 \input{header.tex}
 
 
-% title information
+%% title information
 \title{Subj 2XXA -- Somesortof Theory -- HWXX}
 \author{Joe Bruin}
-\date{\formatdate{01}{09}{2015}} % Activate to display a given date or no date (if empty),
+\date{\today} % Activate to display a given date or no date (if empty),
 	% otherwise the current date is printed 
 	% format: formatdate{dd}{mm}{yyyy}
 
 
+%% begin document
 \begin{document}
 \maketitle
 
 
 
+% overview of problem set
 \begin{em}
 Problems blah, blah, and blah from book Blah by Blah Blahson.
+\begin{itemize}
+\item Do this problem that way. 
+\item Do that problem this way. 
+\end{itemize}
 \end{em}
 
 
 
+% problem 1
+%\HWsetCounter{x}
+\HWproblemSec[subtitle]
+\begin{HWproblemState}
+Basic problem statement goes here. 
+\end{HWproblemState}
 
-% Problem 1
-%\setcounter{homeworkProblemCounter}{x}
-\sectionproblem%[Problem Subtitle]
-\begin{em}
+
+\begin{HWproblemEnum}
+
+\item % part A
+\begin{HWproblemState}
+Sub-problem statement here. 
+\end{HWproblemState}
+
+This is where we answer the problem, with a proof, computation, etc. 
+
+
+\item % part B
+\begin{HWproblemState}
+Next sub-problem statement. 
+\end{HWproblemState}
+
+You know the rest. 
+
+
+\item % part C
+\begin{HWproblemState}
 blah
-\end{em}
-
-
-\begin{enumproblem}
-
-% part A
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part B
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part C
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part D
-\item \begin{em}
-blah
-\end{em}
+\end{HWproblemState}
 
 blah
 
+\end{HWproblemEnum}
 
-% part E
-\item \begin{em}
+
+
+% problem 2
+%\HWsetCounter{x}
+\HWproblemSec%[subtitle]
+\begin{HWproblemState}
 blah
-\end{em}
+\end{HWproblemState}
 
+
+\begin{HWproblemEnum}
+
+\item % part A
+\begin{HWproblemState}
 blah
-
-
-\end{enumproblem}
-
-
-
-
-% Problem 2
-%\setcounter{homeworkProblemCounter}{x}
-\sectionproblem%[Problem Subtitle]
-\begin{em}
-blah
-\end{em}
-
-
-\begin{enumproblem}
-
-% part A
-\item \begin{em}
-blah
-\end{em}
+\end{HWproblemState}
 
 blah
 
 
-% part B
-\item \begin{em}
+\item % part B
+\begin{HWproblemState}
 blah
-\end{em}
-
-blah
-
-
-% part C
-\item \begin{em}
-blah
-\end{em}
+\end{HWproblemState}
 
 blah
 
+\end{HWproblemEnum}
 
-% part D
-\item \begin{em}
-blah
-\end{em}
 
-blah
 
-
-% part E
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-\end{enumproblem}
-
-
-
-
-% Problem 3
-%\setcounter{homeworkProblemCounter}{x}
-\sectionproblem%[Problem Subtitle]
-\begin{em}
-blah
-\end{em}
-
-
-\begin{enumproblem}
-
-% part A
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part B
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part C
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part D
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part E
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-\end{enumproblem}
-
-
-
-
-% Problem 4
-%\setcounter{homeworkProblemCounter}{x}
-\sectionproblem%[Problem Subtitle]
-\begin{em}
-blah
-\end{em}
-
-
-\begin{enumproblem}
-
-% part A
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part B
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part C
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part D
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part E
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-\end{enumproblem}
-
-
-
-
-% Problem 5
-%\setcounter{homeworkProblemCounter}{x}
-\sectionproblem%[Problem Subtitle]
-\begin{em}
-blah
-\end{em}
-
-
-\begin{enumproblem}
-
-% part A
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part B
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part C
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part D
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-% part E
-\item \begin{em}
-blah
-\end{em}
-
-blah
-
-
-\end{enumproblem}
-
-
-
-
-
-
-
+%% end document
 \end{document}

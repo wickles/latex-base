@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%
 %% CONTENTS
 %%%%%%%%%%%%%%%%%%
-% To-do / Bugs
+% To-do / issues
 % Packages
 % Commands
 % Special Symbols
@@ -27,10 +27,8 @@
 % TO-DO: custom commands using package rotating.sty
 	% \newcommand{\sideways}[1]{\begin{sideways} #1 \end{sideways}} % turn things 90 degrees CCW
 	% \newcommand{\turn}[2][]{\begin{turn}{#2} #1 \end{turn}} % \turn[ang]{stuff} turns things arbitrary +/- angle
-% TO-DO: find package for easily drawing mapping / algebraic / commutative diagrams..
+% TO-DO: find package for easily drawing mapping / algebraic / commutative diagrams..??
 
-%% environments
-% TO-DO: add/improve problem/subproblem/answer environments for homeworks
 
 
 
@@ -40,39 +38,23 @@
 %%%%%%%%%%%%%%%%%%
 
 
-% standard and structural packages
+%% debugging / diagnostics
 \RequirePackage[l2tabu,orthodox]{nag} % nags user about obsolete and improper syntax
 %\usepackage{iftex} % check if a document is being processed with PDFTEX, or XeTEX, or LuaTEX
-\usepackage{graphicx} % support the \includegraphics command and options
-\usepackage[font=footnotesize,labelfont=bf,labelsep=space]{caption} 
-	% makes figure captions better, more configurable.
-	% specific options make captions smaller and the label bold.
-\usepackage{subcaption} % allows for subfigures and subcaptions
-	% can add usual caption options to change format for subcaptions
-\usepackage{epstopdf} % allows complier to convert eps files to pdf files for inclusion in document
-\usepackage{amsmath} % for nice math commands and environments
-\usepackage{mathtools} % extends amsmath with bug fixes and useful commands, e.g.
-	% \shortintertext for short interjections in align environment,
-	% \prescript{t}{b}{X} for simple, nicely aligned math pre-(super/sub)scripts
-\usepackage{amsthm} % for theorem and proof environments
-\usepackage{xparse} % provides high-level interface for producing document-level commands
-	% via \[Declare/New/Renew/Provide/etc]DocumentCommand
-	% allows for more than one optional argument in commands
-\usepackage{lineno} % provides line numbers in main text for reference and peer review
-%\linenumbers % uncomment to enable line numbering
-\usepackage[pdfencoding=auto,psdextra]{hyperref} % adds hyperlinks and outline to PDF documents
-	% options enable enhanced unicode and math support in PDF outlines [causes conflict with \C command?]
-\usepackage{cleveref} % provides \cref command which inserts contextually correct word in front of ref.
-	% e.g. \cref{eq:myeq} --> Equation 1.2, or so
-\usepackage{bookmark} % improves package hyperref's bookmarking. 
-	% properties such as style and color can be set. generates bookmarks in first run. 
-\usepackage{letltxmacro} % provides \LetLtxMacro command for correct renaming of commands
+%\usepackage{lineno} % load later
+
+
+
+
+%% fonts and encoding 
+
+% standard and structural packages
 \usepackage{cmap} % provides better copy-pasteable output text. 
 	% see for details: http://tex.stackexchange.com/a/64198
 	% can also use mmap.sty, but not compatible with fonts other than Computer Modern
 	% see for details: http://tex.stackexchange.com/questions/74630/
-\input{glyphtounicode} % these two commands improve glyph output for non-T1 encodings
-\pdfgentounicode=1
+%\input{glyphtounicode}	% these two commands improve glyph output for non-T1 encodings
+%\pdfgentounicode=1		% and this
 
 
 % font packages -- load fontenc, then inputenc, then lmodern. 
@@ -85,10 +67,16 @@
 	% They have enhanced scaling, metrics and glyph coverage. 
 	% See http://www.tug.dk/FontCatalogue/lmodern/
 	% Also solves rasterized/aliased fonts issue on incomplete LaTeX installations without CM-super fonts
+\usepackage{soul} % provides commands for: 
+	% hyphenatable letter spacing (\so), underlining (\ul), caps (\caps, alt. to \textsc)
+	% and some derivatives such as overstriking/strikethrough (\st) and highlighting (\hl)
+\newcommand\bmmax{2} % increase max number of bm font allocations. default 4?
+%\newcommand\hmmax{1} % increase max number of hm font allocations. default 3?
 \usepackage{bm} % provides \bm command for robustly bolding math characters
 \usepackage{amssymb} % for \mathbb (upper case only), \mathfrak fonts
 \usepackage{mathrsfs} % for \mathscr font (upper case only)
 \usepackage{dsfont} % best option for non-alphabetical doublestruck characters
+	% use command \mathds{string}
 \usepackage{bbm} % alternative option for non-alphabetical doublestruck characters
 	% highly rasterized (non-smooth bitmap font), unfortunately
 \DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it} % defines \mathpzc for Zapf Chancery font (a standard postscript font)
@@ -97,20 +85,95 @@
 	% see https://www.tug.org/TUGboat/tb30-3/tb96vieth.pdf
 \usepackage{microtype} % improves kerning in certain cases. 
 	% recommended to disable protrusion in table of contents!
+\usepackage{moresize} % adds additional font sizes \HUGE and \ssmall
+\usepackage{relsize} % adds incredibly useful relative font sizing functions
+	% \relsize{i}				Change font size by i steps.
+	% \larger[i]				Increase size by (optional) i steps (default 1).
+	% \smaller[i]				Reduce font size by i steps (default 1).
+	% \relscale{f}				Change font size by scale factor f.
+	% \textlarger[i]{<text>}		Text size enlarged by (optional) i steps.
+	% \textsmaller[i]{<text>}		Text size reduced by (optional) i steps.
+	% \textscale{f}{<text>}		Text size scaled by factor f.
+
+% commands for script characters (e.g. Griffiths' script r)
+\usepackage{calligra}
+\DeclareMathAlphabet{\mathcalligra}{T1}{calligra}{m}{n}
+\DeclareFontShape{T1}{calligra}{m}{n}{<->s*[2.2]callig15}{}
+\newcommand{\scripty}[1]{\ensuremath{\mathcalligra{#1}}}
 
 
-% other packages
-\usepackage{datetime} % allows easy formatting of dates, e.g. \formatdate{dd}{mm}{yyyy}
-\usepackage[inline]{enumitem} % allows for custom labels on enumerated lists
-	% e.g. \begin{enumerate}[label=\textbf{(\alph*)}]
-	% inline option creates '*' versions of enumerate, itemize, description 
-		% which can be inlined within the text of a paragraph. 
-\usepackage{outlines} % provides 'outline[style]' environment, allowing for subitems in lists
-	% e.g. \begin{outline} \1 item \2 subitem \3[A)] subsubitem \1 item \end{outline}
-	% or with other style: \begin{outline}[enumerate], etc
-\usepackage[squaren]{SIunits} % for nice units formatting e.g. \unit{50}{\kilo\gram}
-\usepackage{cancel} % for crossing out terms with \cancel
+
+
+
+
+%% document interface 
+
+\usepackage[pdfencoding=auto,psdextra]{hyperref} % adds hyperlinks and outline to PDF documents
+	% options enable enhanced unicode and math support in PDF outlines [causes conflict with \C command?]
+\usepackage{cleveref} % provides \cref command which inserts contextually correct word in front of ref.
+	% e.g. \cref{eq:myeq} --> Equation 1.2, or so
+\usepackage{bookmark} % improves package hyperref's bookmarking. 
+	% properties such as style and color can be set. generates bookmarks in first run. 
+
+
+
+
+%% Latex interface 
+
 \usepackage{verbatim} % for verbatim and comment environments
+\usepackage{letltxmacro} % provides \LetLtxMacro command for correct renaming of commands
+\usepackage{multido} % provides excellent loop structure \multido{variables}{repetitions}{stuff} 
+\newcommand{\Repeat}[2][2]{\Multido{\i=1+1}{#1}{#2}}
+	% command for repeating arbitrary TeX n times
+\usepackage{etoolbox} % provides many useful programming tools, 
+	% e.g. \ifdefempty{cs}{true}{false}
+
+
+
+%% media interface
+
+\usepackage{graphicx} % support the \includegraphics command and options
+\usepackage[font=footnotesize,labelfont=bf,labelsep=space]{caption} 
+	% makes figure captions better, more configurable.
+	% specific options make captions smaller and the label bold.
+\usepackage{subcaption} % allows for subfigures and subcaptions
+	% can add usual caption options to change format for subcaptions
+\usepackage{epstopdf} % allows complier to convert eps files to pdf files for inclusion in document
+%\usepackage{svg} % provides \includesvg command for svg figures. 
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor} 
+	% provides access to large number of colors and related features
+	% see end notes for lists of available colors
+\usepackage{pgfplots} % for plotting in tikzpicture environment
+	\pgfplotsset{compat=1.11} % required to select newest version
+
+
+
+
+
+
+
+%% math interface
+
+\usepackage{amsmath} % for nice math commands and environments
+\usepackage{mathtools} % extends amsmath with bug fixes and useful commands, e.g.
+	% \shortintertext for short interjections in align environment,
+	% \prescript{t}{b}{X} for simple, nicely aligned math pre-(super/sub)scripts
+	% \Aboxed{...} for boxing full lines in 'align' environment
+\usepackage{amsthm} % for theorem and proof environments
+
+\usepackage{array} % improves array support, esp. in tabular env. 
+	% see also xtab.sty
+\usepackage{booktabs} % allows for improved spacing in tabular env. 
+	% use \toprule, \*midrule, \bottomrule instead of \hline
+	% see also ctable.sty
+
+\usepackage{xparse} % provides high-level interface for producing document-level commands
+	% via \[Declare/New/Renew/Provide/etc]DocumentCommand
+	% allows for more than one optional argument in commands
+
+%\usepackage[squaren]{SIunits} % for nice units formatting e.g. \unit{50}{\kilo\gram}
+\usepackage{siunitx} % eventually deprecate SIunits package. use \SI in place of \unit
+\usepackage{cancel} % for crossing out terms with \cancel, \cancelto{X}, etc
 \usepackage{bropd} % provides \br command which simplifies nesting of bracketed terms within one another
 	% e.g. \br{\br{x-a}^2+\br{y-b}^2} produces \left[ \left( x-a \right)^2 + \left( y-b \right)^2 \right]
 	% also provides rudimentary derivatives, but overwritten by custom definitions
@@ -121,15 +184,15 @@
 \usepackage{slashed} % provides a command \slashed[1] for Feynman slash notation
 \usepackage[version=3]{mhchem} % for writing chemical formulas with \ce, e.g. \ce{AgCl2-} or \ce{^{227}_{90}Th+}
 	% version option required to use newest version
-\usepackage{listings} % for typesetting source code
-\usepackage{algorithmicx} % for typesetting algorithms and pseudocode
+
 \usepackage{feynmp-auto} % for Feynman diagrams. 
-\usepackage{pgfplots} % for plotting in tikzpicture environment
-	\pgfplotsset{compat=1.11} % required to select newest version
 \usepackage{cool} % neato burrito COntent-Oriented Latex. 
 	% has an unfortunate bug in otherwise ideal derivatives code
 	% see https://tex.stackexchange.com/questions/54425
 	% Warning: renamed \Beta and \Zeta to \BetaF and \ZetaF below
+\Style{ % COOL command styles
+	LogBaseESymb=log % fix 'ln' bullshit 
+}
 \usepackage{esdiff} % provides separate derivative commands
 	% e.g. \diff[n]{f}{x} for nth ordinary derivative, \diffp{f}{{x}{y^2}} for multivariate derivatives,
 	% \diffp*{p}{V}{T}$ for thermo derivative
@@ -141,13 +204,65 @@
 	% \abs, \norm, \eval, \order ,\comm, \acomm
 	% vectors: \vb, \va, vu, \vdot, \cross, \grad, \div, \curl, \laplacian
 	% largely replaces and adds basic math functions with auto-delimiters: trig, linear algebra, etc.
+		% no inverse hyperbolic trig? 
 	% in particular adds \tr, \Tr, \rank, \erf, \Res, \pv / \PV, \Re, \Im
 	% auto padding text: \qq{string}
 	% matrix quantities: \mqty(a & b \\ c & d) or \mqty[x \\ y], Pauli \pmat{n}, diagonal matrices \mqty(\dmat{1,2&3\\4&5}), anti-diagonal \admat
 
+
+
+
+
+
+%% misc packages
+
+\usepackage{datetime} % allows easy formatting of dates, e.g. \formatdate{dd}{mm}{yyyy}
+\usepackage[inline]{enumitem} % allows for custom labels on enumerated lists
+	% e.g. \begin{enumerate}[label=\textbf{(\alph*)}]
+	% label options are: \alph, \Alph, \arabic, \roman, and \Roman
+	% inline option creates '*' versions of enumerate, itemize, description 
+		% which can be inlined within the text of a paragraph. 
+\usepackage{outlines} % provides 'outline[style]' environment, allowing for subitems in lists
+	% e.g. \begin{outline} \1 item \2 subitem \3[A)] subsubitem \1 item \end{outline}
+	% or with other style: \begin{outline}[enumerate], etc
+
+\usepackage{listings} % for typesetting source code
+\usepackage{algorithm} % provides 'algorithm' float environment
+%\usepackage{algorithmicx} % for typesetting algorithms and pseudocode
+	% does not provide an actual layout to use! 
+\usepackage{algpseudocode} % invokes 'algorithmicx' package to define 
+	% a full modern pseudo-code layout
+
+
 \usepackage{rotating} 
 	% provides environments for rotating arbitrary objects, e.g. sideways, turn[ang], rotate[ang]
 	% also provides macro \turnbox{ang}{stuff}
+%\usepackage{ctable} % allows for footnotes under table and properly spaced caption above 
+	% must be loaded after tikz
+	% incorporates (..?)
+\usepackage{framed} % provides boxed 'framed' environment for easily boxing text 
+\usepackage{fancybox} % provides fancier boxes than regular \makebox, \fbox, etc. 
+	% e.g. \doublebox, \ovalbox, \shadowbox
+\usepackage{empheq} % provides 'empheq' environment 
+	% for improved control over shape, size, color of framed boxes, e.g. 
+\newcommand{\boxedeq}[2]{
+	\begin{empheq}[box={\fboxsep=6pt\fbox}]{align}\label{#1}#2\end{empheq}
+}
+\newcommand{\coloredeq}[2]{
+	\begin{empheq}[box=\colorbox{lightgreen}]{align}\label{#1}#2\end{empheq}
+}
+
+
+
+
+
+%% load later packages
+\usepackage{lineno} % provides line numbers in main text for reference and peer review
+	% activated by calling \linenumbers in document
+
+
+
+
 
 
 
@@ -158,7 +273,20 @@
 
 
 % functions and operators
-%partially deprecated by physics.sty
+% some functions deprecated by physics.sty
+\newcommand{\code}[2][]{ % for typesetting monospaced code
+	%\ifthenelse{\equal{#1}{}}{ % if description is empty
+	%\ifdefempty{#1}{
+	\ifstrempty{#1}{ 
+		\texttt{#2}
+	}{ %else
+		\colorbox{#1}{\texttt{#2}}
+	}
+}
+\definecolor{lighter-gray}{gray}{0.85} % lighter gray for code highlighting
+\newcommand{\codehl}[2][lighter-gray]{\code[#1]{#2}} % \code with light gray highlight by default
+\newcommand{\codeLtxMacro}[2]{\code[#1]{\textbackslash{}#2}} % same as \code but inserts backslash in front, for Latex macros
+\newcommand{\codehlLtxMacro}[2][lighter-gray]{\codeLtxMacro[#1]{#2}}
 \newcommand{\mtext}[1]{{\textnormal{#1}}} % for writing text within math mode, e.g. for subscripts
 \LetLtxMacro{\mtxt}{\mtext} % legacy alias for \mtext
 \LetLtxMacro{\opname}{\operatorname} % custom operator names
@@ -192,9 +320,10 @@
 % vector and other notational commands
 % note distinction between bold math modes \boldsymbol vs \bm
 % see https://tex.stackexchange.com/questions/3238/
+% use \pmb (poor man's bold) for uncooperative characters / fonts
 % according to IUPAP standards, vectors should be bold italic while tensors should be slanted bold sans serif
 \LetLtxMacro{\vaccent}{\v} % rename builtin command \v{} to \vaccent{}
-\renewcommand{\v}[1]{ % for vectors
+\renewcommand{\v}[1]{ % for vectors. use \pmb for uncooperative characters / fonts
 	%\boldsymbol{\mathbf{#1}}
 	\bm{#1}
 }
@@ -208,7 +337,7 @@
 \newcommand{\vdddd}[1]{\v{\ddddot{#1}}} % for ddddotted vectors
 \newcommand{\uvd}[1]{\bm{\dot{\widehat{#1}}}} % for dotted unit vectors
 \newcommand{\uvdd}[1]{\bm{\ddot{\widehat{#1}}}} % for ddotted unit vectors
-\renewcommand{\bbar}[1]{\bar{\bar{#1}}} % for barring things twice -- use \cbar or \zbar instead of original \bbar
+\newcommand{\bbar}[1]{\bar{\bar{#1}}} % for barring things twice -- use \cbar or \zbar instead of original \bbar
 \newcommand{\bbbar}[1]{\bar{\bbar{#1}}}
 \newcommand{\bbbbar}[1]{\bar{\bbbar{#1}}}
 \newcommand{\tens}[1]{\mathsfbf{#1}} % for tensors
@@ -252,6 +381,7 @@
 
 
 % special characters and shortcuts
+\newcommand{\textoverline}[1]{$\overline{\mbox{#1}}$} % allows for overline in text mode, e.g. for MS-bar renormalization scheme
 \newcommand{\const}{{\textit{const}}} % shorthand for constant. works in math mode with proper kerning
 \newcommand{\bigO}{\mathcal{O}} % big O notation. is there a \O?
 \LetLtxMacro{\bigo}{\bigO} % deprecated version. keeping for now because need to update instances in older files
@@ -329,30 +459,8 @@
 %%%%%%%%%%%%%%%%%%
 
 
-\newcommand{\beg}{\begin} % a few letters less for beginning environments
-\newenvironment{eqn}{\equation}{\endequation} % a lot fewer letters for equation environment
-\newenvironment{enumproblem}{ % for easily enumerating letters in problems
-	\begin{enumerate}[label=\textbf{(\alph*)},listparindent=\parindent]
-	}{\end{enumerate}}
+%% theorem-style environments. note amsthm builtin proof environment: \begin{proof}[title]
 
-% Homework Problem Counter
-\newcounter{homeworkProblemCounter}
-\setcounter{homeworkProblemCounter}{0}
-%\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
-
-% Problem Section command. Creates new section with correct problem number.
-% Optional argument is a short title or description.
-% To skip to problem N, change the counter to N-1
-\newcommand{\sectionproblem}[1][]{
-	\stepcounter{homeworkProblemCounter}
-	\ifthenelse{\equal{#1}{}}{ % if description is empty
-		\section*{Problem \arabic{homeworkProblemCounter}}
-	}{
-		\section*{Problem \arabic{homeworkProblemCounter}: #1}
-	}
-}
-
-% theorem-style environments. note amsthm builtin proof environment: \begin{proof}[title]
 % appending [section] resets counter and prepends section number
 % use \setcounter{counter}{0} to reset counter
 % typical use cases:
@@ -377,6 +485,58 @@
 \newtheorem{note}[theorem]{Note}
 \newtheorem{claim}[theorem]{Claim}
 \newtheorem{conclusion}[theorem]{Conclusion}
+
+
+%% some simple short nickname commands
+\LetLtxMacro{\beg}{\begin} % a few letters less for beginning environments
+\newenvironment{eqn}{\equation}{\endequation} % a lot fewer letters for equation environment
+
+
+%% finally some commands for writing homework problems
+
+% Homework Problem Counter
+\newcounter{HWproblemCounter}
+% commend for setting current problem number
+\newcommand{\HWsetCounter}[1]{
+	\setcounter{HWproblemCounter}{#1-1}
+}
+\HWsetCounter{1} % start at problem 1 by default 
+%\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+% Problem Section command. Creates new section with correct problem number.
+% Optional argument is a short title or description.
+% To skip to problem N, change the counter to N-1
+\newcommand{\HWproblemSec}[1][]{
+	\stepcounter{HWproblemCounter}
+	%\ifthenelse{\equal{#1}{}}{ % if description is empty
+	\ifstrempty{#1}{ % if description is empty
+		\section*{Problem \arabic{HWproblemCounter}}
+	}{ % else
+		\section*{Problem \arabic{HWproblemCounter}: #1} % {#1+1} ??
+	}
+}
+
+% for enumerating sub-problems
+\newenvironment{HWproblemEnum}{
+	% begin
+	\begin{enumerate}[label=\textbf{(\alph*)},listparindent=\parindent]
+}{
+	% end
+	\end{enumerate}
+}
+
+% for problem statements
+\newenvironment{HWproblemState}{
+	% begin
+	\begin{em}
+	\relsize{-1}
+}{
+	% end
+	%\newline
+	\vspace{5mm}
+	\end{em}
+}
+
 
 
 
@@ -595,6 +755,26 @@
 
 \begin{comment}
 
+% make a professional looking table
+%\usepackage{booktabs}\\
+\begin{table}
+%\centering % optional
+  \begin{tabular}{llr}  
+    \toprule
+    \multicolumn{2}{c}{Item} \\
+    \cmidrule(r){1-2}
+    Animal    & Description & Price (\$) \\
+    \midrule
+    Gnat      & per gram    & 13.65      \\
+          &    each     & 0.01       \\
+    Gnu       & stuffed     & 92.50      \\
+    Emu       & stuffed     & 33.33      \\
+    Armadillo & frozen      & 8.99       \\
+    \bottomrule
+  \end{tabular}
+\caption{My neat table}
+\end{table}
+
 % handle figures using graphicx package
 % example - place a figure
 \begin{figure}
@@ -743,6 +923,7 @@ extra tick style={grid=major}]
 	% this maintains font choices and ensures normal, upright text
 % Text mode font sizes (small to large)
 	% \tiny
+	% \ssmall % (moresize.sty)
 	% \scriptsize
 	% \footnotesize
 	% \small
@@ -752,8 +933,14 @@ extra tick style={grid=major}]
 	% \LARGE
 	% \huge
 	% \Huge
+	% \HUGE % (moresize.sty)
 % Math mode font sizes for delimiters (smaller to larger)
 	% \big
 	% \Big
 	% \bigg
 	% \Bigg
+
+%% pre-defined colors
+% standard: black, blue, brown, cyan, darkgray, gray, green, lightgray, lime, magenta, olive, orange, pink, purple, red, teal, violet, white, yellow
+%
+% dvips: Apricot, Aquamarine, Bittersweet, Black, Blue, BlueGreen, BlueViolet, BrickRed, Brown, BurntOrange, CadetBlue, CarnationPink, Cerulean, CornflowerBlue, Cyan, Dandelion, DarkOrchid, Emerald, ForestGreen, Fuchsia, Goldenrod, Gray, Green, GreenYellow, JungleGreen, Lavender, LimeGreen, Magenta, Mahogany, Maroon, Melon, MidnightBlue, Mulberry, NavyBlue, OliveGreen, Orange, OrangeRed, Orchid, Peach, Periwinkle, PineGreen, Plum, ProcessBlue, Purple, RawSienna, Red, RedOrange, RedViolet, Rhodamine, RoyalBlue, RoyalPurple, RubineRed, Salmon, SeaGreen, Sepia, SkyBlue, SpringGreen, Tan, TealBlue, Thistle, Turquoise, Violet, VioletRed, White, WildStrawberry, Yellow, YellowGreen, YellowOrange

@@ -1,19 +1,23 @@
-% declare document class and geometry
+%% declare document class and geometry
 \documentclass[12pt]{article} % use larger type; default would be 10pt
 \usepackage[english]{babel} % for hyphenation dictionary
 %\setdefaultlanguage{english} % polyglossia command for use with XeTeX / LuaTeX
-\usepackage[margin=1in]{geometry} % handle page geometry
+\usepackage{geometry} % setup page geometry
+\geometry{letterpaper, portrait, margin=1in}
 
+%% import packages and commands
 \input{header.tex}
 
-% title info
+
+%% title information
 \title{Test file}
 \author{Joe Bruin}
-\date{\formatdate{01}{09}{2015}} % Activate to display a given date or no date (if empty),
+\date{\today} % Activate to display a given date or no date (if empty),
 	% otherwise the current date is printed 
 	% format: formatdate{dd}{mm}{yyyy}
 
 
+%% begin document
 \begin{document}
 \maketitle
 
@@ -23,17 +27,42 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Fonts}
 
+\subsection{soul}
+
+\begin{itemize}
+\item \so{letterspacing}
+\item \textsc{CAPITALS, Small Capitals}
+\item \caps{CAPITALS, Small Capitals}
+\item \ul{underlining}
+\item \st{overstriking}
+\item \hl{highlighting}
+\end{itemize}
+
+
 \subsection{mathbb. mathfrak. mathscr}
 
-$$ \mathbb{abc}, \quad \mathbb{ABC}, \quad \mathbb{123}. \qquad \mathfrak{abc}, \quad \mathfrak{ABC}, \quad \mathfrak{123}. \qquad \mathscr{abc} \quad \mathscr{ABC}, \quad \mathscr{123} $$
+\begin{itemize}
+\item $\mathbb{abc}, \quad|\quad \mathbb{ABC}, \quad|\quad \mathbb{123}$
+\item $\mathfrak{abc}, \quad|\quad \mathfrak{ABC}, \quad|\quad \mathfrak{123}$
+\item $\mathscr{abc} \quad|\quad \mathscr{ABC}, \quad|\quad \mathscr{123}$
+\end{itemize}
+
 
 \subsection{dsfont. bbm. mathpzc}
 
-$$ \mathds{abc}, \quad \mathds{ABC}, \quad \mathds{123}. \qquad \mathbbm{abc}, \quad \mathbbm{ABC}, \quad \mathbbm{123}. \qquad \mathpzc{abc}, \quad \mathpzc{ABC}, \quad \mathpzc{123} $$
+\begin{itemize}
+\item $\mathds{abc}, \quad|\quad \mathds{ABC}, \quad|\quad \mathds{123}$
+\item $\mathbbm{abc}, \quad|\quad \mathbbm{ABC}, \quad|\quad \mathbbm{123}$
+\item $\mathpzc{abc}, \quad|\quad \mathpzc{ABC}, \quad|\quad \mathpzc{123}$
+\end{itemize}
+
 
 \subsection{Cyrillic script math symbols}
 
-$$ \cyrsymbol{\CYRZH} \times \cyrsymbol{\CYRSHCH}_{\cyrsymbol \cyrd} $$
+Quick and easy way to programmatically write cyrillic symbols
+\begin{itemize}
+\item $\cyrsymbol{\CYRZH} \times \cyrsymbol{\CYRSHCH}_{\cyrsymbol \cyrd}$
+\end{itemize}
 
 
 
@@ -43,17 +72,39 @@ $$ \cyrsymbol{\CYRZH} \times \cyrsymbol{\CYRSHCH}_{\cyrsymbol \cyrd} $$
 
 \subsection{cleveref}
 
+Here's an equation:
 \begin{equation}
-\int_{\partial \Sigma} \omega = \int_\Sigma \dif{\omega}
+\int_{\partial \Sigma} \omega = \int_\Sigma \dif{\omega}. 
 \label{eq:stokes}
 \end{equation}
-Notice that in \cref{eq:stokes}, we have..
+We can cite it without explicitly writing `equation' --- notice that in \cref{eq:stokes}, we have \dots
+
+
+\subsection{multido}
+
+Here's an example calculation where the \codehl{\textbackslash{}Repeat} command is useful: 
+\begin{align}
+[\psi^{\dagger i}_L \psi^j_L, \psi^{\dagger m}_L \psi^n_L] 
+	&= \psi^{\dagger m}_L \left[ \psi^{\dagger i}_L \cbr{\psi^j_L,\psi^n_L} - \cbr{\psi^{\dagger i}_L, \psi^n_L} \psi^j_L \right] \\
+		&\Repeat[2]{\qquad} + \left[ \psi^{\dagger i}_L \cbr{\psi^j_L, \psi^{\dagger m}_L} - \cbr{\psi^{\dagger i}_L, \psi^{\dagger m}_L} \psi^j_L \right] \\
+	&= \delta(x-y) \times \Bigg( \psi^{\dagger m}_L \psi^{\dagger i}_L \delta^{jn} - \psi^{\dagger m}_L \psi^j_L \delta^{in} + \psi^{\dagger i}_L \psi^n_L \delta^{jm} - \psi^j_L \psi^n_L \delta^{im} \Bigg), 
+\end{align}
+
+\subsection{relsize}
+
 
 \subsection{datetime}
 
 Dates: \formatdate{01}{01}{1979}
 
+
 \subsection{enumitem}
+
+\begin{enumerate}[label=\textbf{(\alph*)}]
+\item neato
+\item burrito
+\end{enumerate}
+
 
 \subsection{outlines}
 
@@ -64,35 +115,139 @@ Dates: \formatdate{01}{01}{1979}
 \1 item
 \end{outline}
 
-\subsection{SIunits}
 
-Speed of light is around $c = \unit{3.0 \times 10^8}{m/s}$. 
+\subsection{siunitx}
+
+Speed of light is approximately $c = \SI{3.0e8}{m/s}$. 
+
+\begin{itemize}
+  \item \SI{100}{\degreeCelsius}
+  \item \SI{3e5}{\km\per\s} or \SI[per-mode = symbol]{3e5}{\km\per\s}
+  \item \si{\newton\metre\squared\per\kilogram\squared} or 
+    \si[per-mode = symbol]{\newton\metre\squared\per\kilogram\squared}
+  \item \(  \SI{10}{\kilo\hertz} = \SI{1}{\per\second\tothe{4}} \)
+  \item \SI[parse-numbers = false]{\sin(x)}{\metre}
+\end{itemize}
+
 
 \subsection{cancel}
 
-Cancel terms: $\cancel{x} + y - \cancel{x} = y$. 
+Cancel terms: 
+\begin{itemize}
+\item $\cancel{x} + y - \cancel{x} = y$
+\item $\cancelto{0}{(X+Y)} + Z = Z$
+\end{itemize}
+
 
 \subsection{bropd}
 
-Nested delimiters: $\br{\br{x-\br{a+c}}^2+\br{y-b}^2}$
+Nested delimiters: 
+\begin{itemize}
+\item $\br{\br{x-\br{a+c}}^2+\br{y-b}^2}^{1/2}$
+\end{itemize}
+
 
 \subsection{commath}
 
+\begin{itemize}
+%\item derivatives
+\item $\del{x} \quad|\quad \cbr{x} \quad|\quad \sbr{x}$
+\item $\intoo{x,y} \quad|\quad \intcc{x,y} \quad|\quad \intoc{x,y}$
+\item $\eval{f(\epsilon)}_{\epsilon=0}$
+\item $\abs{X+Y} \quad|\quad \norm{X+Y}$
+\item Nice looking function/mapping: $$\fullfunction{f}{\mathbb R}{\mathbb R}{x}{\sqrt{x}}$$
+\end{itemize}
+
+
 \subsection{tensor}
 
-Format tensor indices more easily: $M\indices{^a_b^{cd}_e}$, $\tensor[^a_b^c_d]{M}{^a_b^c_d}$
+Format tensor indices more easily: 
+\begin{itemize}
+\item $M\indices{^a_b^{cd}_e}$ 
+\item $\tensor[^a_b^c_d]{M}{^a_b^c_d}$
+\end{itemize}
+
 
 \subsection{slashed}
 
 Feynman slashes: $(\slashed{p} + m) \psi = 0$. 
 
+
 \subsection{mhchem}
 
 Simplify writing chemical formulas: \ce{AgCl2-}, \ce{^{227}_{90}Th+}
 
+
 \subsection{listings}
 
+We can write nice looking code with syntax highlighting! 
+
+\lstset{ % set listings style
+%language=Pascal				% default language
+%backgroundcolor=\color{white},	% choose the background color
+basicstyle=\small\ttfamily,			% overall style
+keywordstyle=\bfseries\color{RoyalBlue}, % keyword style
+commentstyle=\color{gray},		% comment style
+stringstyle=\color{Mahogany},		% string literal style
+%showstringspaces=false,			% no special string spaces
+%breaklines=true,				% automatic line breaking only at whitespace
+%captionpos=b,				% sets the caption-position to bottom
+%escapeinside={\%*}{*)},			% if you want to add LaTeX within your code
+}
+
+\subsubsection{Pascal}
+
+%\lstset{language=Pascal}
+\begin{lstlisting}[language=Pascal]
+for i:=maxint to 0 do
+begin
+{ do nothing }
+end;
+Write('Case insensitive ');
+WritE('Pascal keywords.');
+\end{lstlisting}
+
+\subsubsection{C language}
+
+\begin{lstlisting}[language=C]
+int main(){
+	printf("Hello world!");
+}
+\end{lstlisting}
+
+\subsubsection{Java}
+
+\begin{lstlisting}[language=java]
+class HelloWorldApp {
+    public static void main(String[] args) {
+        System.out.println("Hello World!"); // Display the string.
+        for (int i = 0; i < 100; ++i) {
+            System.out.println(i);
+        }
+    }
+}
+\end{lstlisting}
+
+
 \subsection{algorithmicx}
+
+See \cref{euclid}. 
+
+\begin{algorithm}[h]
+\caption{Euclid's algorithm}\label{euclid}
+\begin{algorithmic}[1]
+\Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of $a$ and $b$}
+\State $r\gets a\bmod b$
+\While{$r\not=0$}\Comment{We have the answer if $r$ is 0}
+\State $a\gets b$
+\State $b\gets r$
+\State $r\gets a\bmod b$
+\EndWhile\label{euclidendwhile}
+\State \textbf{return} $b$\Comment{The gcd is $b$}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 
 \subsection{feynmp-auto}
 
@@ -116,6 +271,7 @@ Example from template in header
 \end{fmfgraph*}
 \end{fmffile}
 
+
 \subsection{pgfplots}
 
 Example from template in header
@@ -131,9 +287,15 @@ extra tick style={grid=major}]
 \end{axis}
 \end{tikzpicture}
 
+
 \subsection{COOL (COntent-Oriented Latex)}
 
-Math as \LaTeX{} commands: $\Cos{x+y}$, $\BesselJ{n}{x}$, etc.
+Math as \LaTeX{} commands: 
+\begin{itemize}
+\item $\Exp{y} \quad|\quad \Log{x} \quad|\quad \Log[2]{Y} \quad|\quad \Log[10]{bs}$
+\item $\Cos{x+y} \quad|\quad \ArcCsch{x} \quad|\quad \BesselJ{n}{x} \quad|\quad \ComplexInfinity$
+\end{itemize}
+
 
 \subsection{rotating}
 
@@ -160,36 +322,38 @@ The proof is trivial.
 
 \subsection{Homework problem}
 
-% Problem 1
-%\setcounter{homeworkProblemCounter}{x}
-\sectionproblem[Optional Subtitle]
-\begin{em}
+Example of how to write a homework problem and solution. Could be done better, TO DO. 
+
+%% begin HW problem
+% Problem 11
+\HWsetCounter{11}
+\HWproblemSec[Optional Subtitle]
+\begin{HWproblemState}
 Prove that something is true. 
-\end{em}
+\end{HWproblemState}
 
 
-\begin{enumproblem}
+\begin{HWproblemEnum}
 
-% part A
-\item \begin{em}
+\item % part A
+\begin{HWproblemState}
 Prove it using method $A$. 
-\end{em}
+\end{HWproblemState}
 
 %% solution 
-My answer
+My answer here! 
 
 
-% part B
-\item \begin{em}
+\item % part B
+\begin{HWproblemState}
 Prove it using another method $B$. 
-\end{em}
+\end{HWproblemState}
 
 %% solution
-Answer goes here
+Answer goes here. 
 
-
-\end{enumproblem}
-%%%%% end HW problem
+\end{HWproblemEnum}
+%% end HW problem
 
 
 
@@ -201,35 +365,45 @@ Answer goes here
 
 $$ \int_\gamma f(z) \dif{z} = 2\pi i \sum_\text{poles $z_\alpha$} \Res_{z=z_\alpha} f(z) $$
 
+
 \subsection{Vector notation}
 
-$$
-\v{abc} \quad \v{ABC} \quad \v{\alpha\beta\gamma} \quad 
-\uv{n} \uv{\phi} \uv{\rho} \uv{x} \quad 
-\v v = \vd x \quad \v a = \vdd x \quad
-\uvd \phi \quad \uvdd r
-$$
+New format:
+\begin{itemize}
+\item $\v{abc} \quad|\quad \v{ABC} \quad|\quad \v{\alpha\beta\gamma} \quad|\quad \uv{n} \uv{\phi} \uv{\rho} \uv{x}$
+\item $\v v = \vd x \quad|\quad \v a = \vdd x \quad|\quad \uvd \phi \quad|\quad \uvdd r$
+\end{itemize}
 
 Old format:
+\begin{itemize}
 \newcommand{\oldv}[1]{\boldsymbol{\mathbf{#1}}}
-$$ \oldv{abc} \quad \oldv{ABC} \quad \oldv{\alpha\beta\gamma} $$
+\item $\oldv{abc} \quad|\quad \oldv{ABC} \quad|\quad \oldv{\alpha\beta\gamma}$
+\end{itemize}
+
 
 \subsection{Tensor notation}
 
-$$ \tens{S}\indices{^{ab}_{cd}} \quad \tens{R}\indices{_\mu^\nu_{\rho\sigma}} \quad \tens{\mathscr{I}}_{ab} {\mathscr{I}}_{ab} $$
+\begin{itemize}
+\item $ \tens{S}\indices{^{ab}_{cd}} \quad|\quad \tens{R}\indices{_\mu^\nu_{\rho\sigma}} \quad|\quad \tens{\mathscr{I}}_{ab} {\mathscr{I}}_{ab} $
+\end{itemize}
 
-Doesn't work for non-T1 characters?
+Doesn't work for non-T1 characters? % e.g. ???
 
-\subsection{\textbackslash{}sqrt vs \textbackslash{}sqrtc}
 
-$$
-\sqrt{X} \to \sqrtc{X}, \sqrt[3]{X} \to \sqrtc[3]{X}
-$$
+\subsection{\codehl{\textbackslash{}sqrt} vs \codehl{\textbackslash{}sqrtc}}
+
+\begin{itemize}
+\item $UV \sqrt{X} \, YZ \to UV \sqrtc{X} \, YZ$
+\item $UV \sqrt[3]{X} \, YZ \to UV \sqrtc[3]{X} \, YZ$
+\end{itemize}
+
 
 \subsection{Specific Notation}
 
-$$ \bigO(x^2), \Lag, \Ham, \AmpliA, \AmpliM $$
-$$ \fatemptyset, \R, \C, \Z, \Q, \N, \RP^n, \CP^m, \quats, \euclids $$
+\begin{itemize}
+\item $ \bigO(x^2), \Lag, \Ham, \AmpliA, \AmpliM $
+\item $ \fatemptyset, \R, \C, \Z, \Q, \N, \RP^n, \CP^m, \quats, \euclids $
+\end{itemize}
 
 
 \subsection{Derivatives}
@@ -239,7 +413,7 @@ $$ \fatemptyset, \R, \C, \Z, \Q, \N, \RP^n, \CP^m, \quats, \euclids $$
 Relativity derivative inline: $\pd{y^\mu}{x^\nu}$. Displayed derivatives: 
 $$ \od[2]{y}{x} \qquad \pd{y^\mu}{x^\nu} \qquad \pdc{S}{E}{N} $$
 
-Test for kerning of derivatives using \textbackslash{}pdif vs \textbackslash{}partial
+Test for kerning of derivatives using \codehl{\textbackslash{}pdif} vs \codehl{\textbackslash{}partial}
 
 $$ \pd{y}{x} \, \frac{\partial y}{\partial x} \, \pd{F}{X} \, \frac{\partial F}{\partial X} $$
 
@@ -259,9 +433,10 @@ $$ \diff[n]{f}{x} \qquad \diffp{f}{{x}{y^2}} \qquad \diffp*{p}{V}{T} $$
 
 $$ \derivEG{f}{x}\qquad \derivEG{f}{*{2}{x},y}\qquad \pderivEG{f}{*{3}{x},y,*{4}{z}} $$
 
+
 \subsection{Differential spacing test}
 
-Testing `d', `D', and ``fancy D''. Order: no spacing, \textbackslash{}negthickspace, \textbackslash{}negmedspace, \textbackslash{}negthinspace. 
+Testing `d', `D', and ``fancy D''. Order: no spacing, \codehl{\textbackslash{}negthickspace}, \codehl{\textbackslash{}negmedspace}, \codehl{\textbackslash{}negthinspace}. 
 
 $$
 \int \mathrm{d} x \mathrm{d} y f(x,y)
@@ -287,7 +462,7 @@ $$
 \int \mathop{\mathcal{D}\phi} \mathop{\mathcal{D}\psi} \psi e^{iS}
 $$
 
-Actual commands: \textbackslash{}dif, \textbackslash{}Dif, \textbackslash{}fancyDif 
+Actual commands: \codehl{\textbackslash{}dif}, \codehl{\textbackslash{}Dif}, \codehl{\textbackslash{}fancyDif}
 
 $$
 \int \dif{x} \dif{y} f(x,y)
@@ -378,11 +553,15 @@ $$
 
 \subsection{Dots}
 
-$x, \dots, y$ vs $x, \dotsc, y$. $x \cdots y$ vs $x \dotsm y$
+Different dots commands do the same thing.. 
+
+\begin{itemize}
+\item $x, \dots, y$ vs $x, \dotsc, y$
+\item $x \cdots y$ vs $x \dotsm y$
+\end{itemize}
 
 
 
 
-
-
+%% end document
 \end{document}

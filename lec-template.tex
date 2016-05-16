@@ -1,19 +1,23 @@
-% declare document class and geometry
+%% declare document class and geometry
 \documentclass[12pt]{article} % use larger type; default would be 10pt
 \usepackage[english]{babel} % for hyphenation dictionary
 %\setdefaultlanguage{english} % polyglossia command for use with XeTeX / LuaTeX
-\usepackage[margin=1in]{geometry} % handle page geometry
+\usepackage{geometry} % setup page geometry
+\geometry{letterpaper, portrait, margin=1in}
 
-% import packages and commands
+%% import packages and commands
 \input{header.tex}
 
-% title information
+
+%% title information
 \title{Subj 2XXA -- Somesortof Theory -- LecXX}
 \author{Joe Bruin}
-\date{\formatdate{01}{09}{2015}} % Activate to display a given date or no date (if empty),
+\date{\today} % Activate to display a given date or no date (if empty),
 	% otherwise the current date is printed 
 	% format: formatdate{dd}{mm}{yyyy}
 
+
+%% begin document
 \begin{document}
 \maketitle
 
@@ -38,6 +42,5 @@ Sometimes we want to beep boop.
 Meepers are an important topic in Somesortof Theory. We will cover them later. 
 
 
-
-
+%% end document
 \end{document}
